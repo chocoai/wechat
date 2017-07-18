@@ -1,0 +1,95 @@
+/*弹框内容*/
+.n_tankzz{
+    background: #030303;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;    
+    opacity: 0.5;
+    z-index: 1000;
+    display: none;
+   
+}
+.n_tank{
+    width: 62%;
+    height: 28%;
+    background: #fff;
+    position: fixed;
+    z-index: 1999;
+    top: 30%;
+    left: 20%;
+    border-radius: 6px;
+    display: none;
+}
+.n_tankhead{
+    height: 23px;
+    width: 100%;
+    background: #06c1ae;
+    border-radius: 6px 6px 0 0; 
+}
+.n_tankCont{
+    height: 60%;
+    box-sizing: border-box;
+    padding: 2rem 0.5rem 2rem 0.5rem;
+	text-align: center;
+	line-height: 4rem;
+}
+.n_tankCont span{
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.n_tankhead span{
+    color: #fff;
+    float: right;
+    font-size: 1.8rem;
+    margin-right: 10px;
+    line-height: 20px;
+	display:none;
+    
+}
+.n_tankbut{
+    width: 100%;
+    height: 21%;
+}
+.n_tankbut button{
+    background: #d00000;
+    border: none;
+    border-radius: 4px;
+    width: 40%;
+    height: 100%;
+    line-height: 100%;
+    color: #fff;
+  
+    font-size: 1.6rem;
+	margin-left: 31%
+}
+
+
+/*加载gif*/
+
+.n_jiaz{
+    position: fixed;
+    width: 20%;
+    height: 30%;
+    left: 40%;
+    top: 182px;
+    z-index: 9999;
+    display: none;
+}
+.n_jiaz img{
+    width: 100%;
+    
+}
+.n_tankzz1{
+    background: #030303;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 1000;
+    display: none;
+}

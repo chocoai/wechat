@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.framework.datadic.dao.ISysdatadicmDao">
+
+	<resultMap type="Sysdatadicm" id="sysdatadicmResultMap">
+		<result property="datadickey" column="datadic_key"/>
+  		<result property="categorykey" column="category_key"/>
+  		<result property="dataid" column="data_id"/>
+  		<result property="datavalue" column="data_value"/>
+  		<result property="dataalias" column="data_alias"/>
+  		<result property="dataexplain" column="data_explain"/>
+  		<result property="sequencenum" column="sequence_num"/>
+  		<result property="categorycode" column="categorycode"/>
+  		<result property="changevalue" column="changevalue"/>
+  		
+	</resultMap>
+
+	<sql id="Base_Column_List">
+	 datadic_key, 
+  			 category_key,
+  			 data_id,
+  			 data_value,
+  			 data_alias,
+  			 data_explain,
+  			 sequence_num
+  			
+  	</sql>
+	<insert id="create" parameterType="Sysdatadicm" useGeneratedKeys="true"  keyProperty="datadickey">
+		INSERT INTO sys_datadic_m(
+		 datadic_key, 
+  			category_key,
+  			data_id,
+  			data_value,
+  			data_alias,
+  			data_explain,
+  			sequence_num
+  			
+		)
+		VALUES(
+		    #{datadickey,jdbcType=VARCHAR},
+			
+  			#{categorykey,jdbcType=VARCHAR},
+			
+  			#{dataid,jdbcType=VARCHAR},
+			
+  			#{datavalue,jdbcType=VARCHAR},
+			
+  			#{dataalias,jdbcType=VARCHAR},
+			
+  			#{dataexplain,jdbcType=VARCHAR},
+			
+  			#{sequencenum,jdbcType=NUMERIC}
+  			)
+	</insert>
+	<update id="update" parameterType="Sysdatadicm">
+		update sys_datadic_m 
+	<set>
+			<if test="datadickey != null and datadickey!=''">
+			datadic_key = #{datadickey},
+			</if>
+			<if test="categorykey != null and categorykey!=''">
+			category_key = #{categorykey},
+			</if>
+			<if test="dataid != null and dataid!=''">
+			data_id = #{dataid},
+			</if>
+			<if test="datavalue != null and datavalue!=''">
+			data_value = #{datavalue},
+			</if>
+			<if test="dataalias != null and dataalias!=''">
+			data_alias = #{dataalias},
+			</if>
+			<if test="dataexplain != null and dataexplain!=''">
+			data_explain = #{dataexplain},
+			</if>
+			<if test="sequencenum != null and sequencenum!=''">
+			sequence_num = #{sequencenum},
+			</if>
+		
+	</set>
+	 where datadic_key=#{datadickey}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+	delete from sys_datadic_m  
+		 <where> datadic_key =#{datadickey}
+		</where>
+	</delete>
+	
+	<delete id="delete" parameterType="String">
+	delete from sys_datadic_m  
+		 <where> datadic_key in
+		 <foreach collection="array" item="item" index="index"  open="(" separator="," close=")">   
+			#{item}   
+		 </foreach> 
+		</where>
+	</delete>
+	
+	<select id="findById" resultMap="sysdatadicmResultMap" parameterType="String">
+  	     select 
+			   <include refid="Base_Column_List" />
+	     from sys_datadic_m t
+	     where datadic_key=#{datadickey}
+  	</select>
+	
+	<select id="getList" resultMap="sysdatadicmResultMap" parameterType="Sysdatadicm">
+		select  <include refid="Base_Column_List" /> from sys_datadic_m t
+		<where>
+			<if test="datadickey != null and datadickey!=''">
+				datadic_key = #{datadickey},
+			</if>
+			<if test="categorykey != null and categorykey!=''">
+				category_key = #{categorykey},
+			</if>
+			<if test="dataid != null and dataid!=''">
+				data_id = #{dataid},
+			</if>
+			<if test="datavalue != null and datavalue!=''">
+				data_value = #{datavalue},
+			</if>
+			<if test="dataalias != null and dataalias!=''">
+				data_alias = #{dataalias},
+			</if>
+			<if test="dataexplain != null and dataexplain!=''">
+				data_explain = #{dataexplain},
+			</if>
+			<if test="sequencenum != null and sequencenum!=''">
+				sequence_num = #{sequencenum},
+			</if>
+		
+		</where>
+	</select>
+	
+	<select id="getByMap" resultMap="sysdatadicmResultMap" parameterType="String">
+		select <include refid="Base_Column_List" /> from sys_datadic_m where #{value}
+	</select>
+	
+	<select id="getAll" resultMap="sysdatadicmResultMap">
+		select <include refid="Base_Column_List" /> from sys_datadic_m
+	</select>
+	
+	<select id="getCount" resultType="int">
+		select count(0) from sys_datadic_m 
+	</select>
+	
+	<select id="getCountByObj" resultType="int" parameterType="Sysdatadicm">
+		select count(1) from sys_datadic_m 
+		<where>
+			<if test="datadickey != null and datadickey!=''">
+				datadic_key = #{datadickey},
+			</if>
+			<if test="categorykey != null and categorykey!=''">
+				category_key = #{categorykey},
+			</if>
+			<if test="dataid != null and dataid!=''">
+				data_id = #{dataid},
+			</if>
+			<if test="datavalue != null and datavalue!=''">
+				data_value = #{datavalue},
+			</if>
+			<if test="dataalias != null and dataalias!=''">
+				data_alias = #{dataalias},
+			</if>
+			<if test="dataexplain != null and dataexplain!=''">
+				data_explain = #{dataexplain},
+			</if>
+			<if test="sequencenum != null and sequencenum!=''">
+				sequence_num = #{sequencenum},
+			</if>
+			
+		</where>
+	</select>
+		<!--  根据数据字典父类型查询所有此类型数据--> 
+	<select id="findVpssysdatadicmByCategoryKey" resultMap="sysdatadicmResultMap" parameterType="String">
+  	    SELECT
+			b.DATADIC_KEY,
+			b.CATEGORY_KEY,
+			b.DATA_ID,
+			b.DATA_VALUE,
+			b.SEQUENCE_NUM
+		FROM
+			sys_diccategory_info a,
+			sys_datadic_m b
+		WHERE
+			a.CATEGORY_KEY = b.CATEGORY_KEY
+		AND a.CATEGORY_CODE=#{categoryCode}  
+		ORDER BY
+			b.SEQUENCE_NUM ASC
+  	</select>
+  		<!--  移动、电信手机充值金额--> 
+  	<select id="findVpssysdatadicmByCategoryCode" resultMap="sysdatadicmResultMap" parameterType="Map">
+		SELECT
+		    a.DATA_ID,
+			a.DATA_VALUE,
+			SUBSTRING_INDEX(a.DATA_VALUE, ',', 1) AS changevalue
+		FROM
+			sys_datadic_m a,
+			sys_diccategory_info b
+		WHERE
+			a.CATEGORY_KEY = b.CATEGORY_KEY
+		AND b.CATEGORY_CODE = #{categoryCode}
+		AND SUBSTRING_INDEX(a.DATA_VALUE, ',', 1) >= #{minvalue}
+		ORDER BY
+			SUBSTRING_INDEX(a.DATA_VALUE, ',', 1) + 0
+  	</select>
+	<!--  根据数据键查询数据值--> 
+  	<select id="findVpssysdatadicmByDataId" resultMap="sysdatadicmResultMap" parameterType="Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			sys_datadic_m
+		WHERE
+			DATA_ID = #{dataid}
+  	</select>
+  	<!-- 查询app端所有配置在数据字典中的数据 -->
+  	<select id="queryAllAppInvoker" resultMap="sysdatadicmResultMap">
+		SELECT 
+		 	<include refid="Base_Column_List" />
+		FROM
+		  sys_datadic_m t 
+		WHERE DELETE_FLAG = '0' 
+		AND EXISTS 
+		  (SELECT 1 FROM SYS_DICCATEGORY_INFO t1 WHERE t.CATEGORY_KEY = t1.CATEGORY_KEY AND t1.INVOKER IN (0, 2))	  		
+  	</select>
+  	<!-- 根据数据id，查询数据值 -->
+  	<select id="findDataDicmValueByDataId" parameterType="String" resultType="String">
+		SELECT 
+		  data_value 
+		FROM
+		  sys_datadic_m t 
+		WHERE DELETE_FLAG = '0' 
+		  AND data_id = #{dataid}  	
+		  LIMIT 1	
+  	</select>
+  	<!-- 根据数据id，查询数据值 -->
+  	<select id="findDataDicmByDataId" parameterType="String" resultMap="sysdatadicmResultMap">
+		SELECT 
+		 	<include refid="Base_Column_List" />
+		FROM
+		  sys_datadic_m t 
+		WHERE DELETE_FLAG = '0' 
+		  AND data_id = #{dataid}  	
+		  LIMIT 1	
+  	</select>
+</mapper>

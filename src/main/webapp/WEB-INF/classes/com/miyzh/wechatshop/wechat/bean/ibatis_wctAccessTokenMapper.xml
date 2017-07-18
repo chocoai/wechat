@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.wechat.dao.IWctAccessTokenDao">
+
+	<resultMap type="com.miyzh.wechatshop.wechat.bean.WctAccessToken" id="wctAccessTokenResultMap">
+		<result property="accesskey" column="accesskey"/>
+  		<result property="accesstoken" column="accesstoken"/>
+  		<result property="expiretime" column="expiretime"/>
+  		<result property="sequenceno" column="sequenceno"/>
+  		<result property="environment" column="environment"/>
+  		<result property="remarks" column="remarks"/>
+  		<result property="deleteflag" column="deleteflag"/>
+  		<result property="credate" column="credate"/>
+  		<result property="creuser" column="creuser"/>
+  		<result property="updatetime" column="updatetime"/>
+  		<result property="updateuser" column="updateuser"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			 accesskey,
+  			 accesstoken,
+  			 expiretime
+  	</sql>
+	<insert id="create" parameterType="com.miyzh.wechatshop.wechat.bean.WctAccessToken" useGeneratedKeys="true"  keyProperty="accesskey">
+		INSERT INTO wct_access_token(
+		 	accesskey, 
+  			accesstoken,
+  			expiretime,
+  			sequenceno,
+  			environment,
+  			remarks,
+  			deleteflag,
+  			credate,
+  			creuser,
+  			updatetime,
+  			updateuser 
+		)
+		VALUES(
+		    #{accesskey,jdbcType=VARCHAR},
+			
+  			#{accesstoken,jdbcType=VARCHAR},
+			
+  			#{expiretime,jdbcType=NVARCHAR},
+			
+  			#{sequenceno,jdbcType=VARCHAR},
+			
+  			#{environment,jdbcType=VARCHAR},
+			
+  			#{remarks,jdbcType=VARCHAR},
+			
+  			#{deleteflag,jdbcType=VARCHAR},
+			
+  			#{credate,jdbcType=NVARCHAR},
+			
+  			#{creuser,jdbcType=VARCHAR},
+			
+  			#{updatetime,jdbcType=NVARCHAR},
+			
+  			#{updateuser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="update" parameterType="com.miyzh.wechatshop.wechat.bean.WctAccessToken">
+		update wct_access_token 
+	<set>
+			<if test="accesstoken != null and accesstoken!=''">
+			accesstoken = #{accesstoken},
+			</if>
+			<if test="expiretime != null and expiretime!=''">
+			expiretime = #{expiretime},
+			</if>
+	</set>
+	 where accesskey=#{accesskey}
+	</update>
+	
+	
+	<select id="findById" resultMap="wctAccessTokenResultMap" parameterType="String">
+  	     select 
+			   <include refid="Base_Column_List" />
+	     from wct_access_token t
+	     where accesskey=#{accesskey}
+  	</select>
+  	
+	<select id="getAll" resultMap="wctAccessTokenResultMap">
+		select <include refid="Base_Column_List" /> from wct_access_token where deleteflag='0'  and environment='1' limit 1
+	</select>
+	
+	<!-- 根据appid查询公众号唯一票据 -->
+	<select id="queryWctAccessTokenByAppid" parameterType="String" resultMap="wctAccessTokenResultMap">
+		SELECT 
+		  <include refid="Base_Column_List" /> 
+		FROM
+		  wct_access_token 
+		WHERE ENVIRONMENT = #{appid} 	
+		  AND deleteflag = '0' 	
+		  limit 1
+	</select>
+</mapper>

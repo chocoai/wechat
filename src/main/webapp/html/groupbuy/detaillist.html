@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>明医商城</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/media.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css?v=4" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/alert.css?v=wmd12">
+		<script src="../../static/js/10core.js?v=1"></script>
+		<script src="../../static/js/20ajx.js?v=1"></script>
+		<script src="../../static/js/60webcfg.js?v=1"></script>
+		<script src="../../static/js/common.js?v=1"></script>
+		<script src="../../static/js/jquery-1.8.2.min.js?v=1"></script>
+		<script src="../../static/js/alert.js?v=1"></script>
+		<script src="checkcount.js?v=1"></script>
+	</head>
+	<body>
+		<div class="Li">
+			<div class="LiHd">
+				<div class="LiHdH3" id="groupbuytitle"></div>
+				<div class="LiHdQu"></div>
+				<div class="LiHdJd">
+					<div class="LiHdJdS">80%</div>
+					<div class="LiHdJindu"><span class="LiHdJinduSpan"  style="80%"  class="LiHdJinduSpan"></span></div>
+				</div>
+				<!--团购倒计时-->
+				<div class="LiHdTime">
+					<div class="LiHdTimeYew">
+						<span class="LiHdTimeYewSpan1">距离团购结束</span>
+						<span class="LiHdTimeYewSpan2"><!--<span>1</span>天<span>23</span>小时 <span>23</span>分钟-->
+							<span id="fnTimeCountDown_0" data-end="">							  						       
+							        <span class="day">11</span>天
+							        <span class="hour">10</span>时
+							        <span class="mini">03</span>分
+							        <span class="sec">31</span>秒							        
+							</span>
+						</span>
+						
+					</div>
+				</div>
+				<!--end 团购倒计时-->
+				
+			</div>
+			
+			<div id="listId">
+			<!--商品列表-->
+			<!-- <div class="LiHdSpin">
+					<div class="LiHdTup">
+						<div class="LiHdLeft">
+							<a href=""><img src="img/wx_03.png" /></a>
+						</div>
+						<div class="LiHdRight">
+							<div class="LiHdRtH4">南海岸人鳗钙片</div>
+							<div class="LiHdRtPz">补钙 来自鳗鱼的海洋生物钙</div>
+							<div class="LiHdRtSc">售出345份</div>	
+							
+							<div class="LiHdRtJg">
+								<div class="LiHdRtDanj">￥<span class="numMani">18</span></div>
+								<div class="LiHdRtSl">
+									<span class="LiHdRtSlJian">-</span>
+									<input class="LiHdRtSlInput" readonly="true" maxlength="3" value="1" />
+									<span class="LiHdRtSlJia">+</span>
+								</div>
+							</div>
+						</div>
+					</div>				
+			</div>
+			
+			
+			<div class="LiHdSpin">
+					<div class="LiHdTup">
+						<div class="LiHdLeft">
+							<a href=""><img src="img/wx_03.png" /></a>
+						</div>
+						<div class="LiHdRight">
+							<div class="LiHdRtH4">南海岸人鳗钙片</div>
+							<div class="LiHdRtPz">补钙 来自鳗鱼的海洋生物钙</div>
+							<div class="LiHdRtSc">售出345份</div>	
+							
+							<div class="LiHdRtJg">
+								<div class="LiHdRtDanj">￥<span class="numMani">18</span></div>
+								<div class="LiHdRtSl">
+									<span class="LiHdRtSlJian">-</span>
+									<input class="LiHdRtSlInput" readonly="true" maxlength="3" value="1" />
+									<span class="LiHdRtSlJia">+</span>
+								</div>
+							</div>
+						</div>
+					</div>				
+			</div>
+			
+			<div class="LiHdSpin">
+					<div class="LiHdTup">
+						<div class="LiHdLeft">
+							<a href=""><img src="img/wx_03.png" /></a>
+						</div>
+						<div class="LiHdRight">
+							<div class="LiHdRtH4">南海岸人鳗钙片</div>
+							<div class="LiHdRtPz">补钙 来自鳗鱼的海洋生物钙</div>
+							<div class="LiHdRtSc">售出345份</div>	
+							
+							<div class="LiHdRtJg">
+								<div class="LiHdRtDanj">￥<span class="numMani">18</span></div>
+								<div class="LiHdRtSl">
+									<span class="LiHdRtSlJian">-</span>
+									<input class="LiHdRtSlInput" readonly="true" maxlength="3" value="1" />
+									<span class="LiHdRtSlJia">+</span>
+								</div>
+							</div>
+						</div>
+					</div>				
+			</div> -->
+			</div>
+			
+			
+			<!--end 商品列表-->
+		</div>
+		
+		<!--弹框提示-->
+		<div class="n_tankzz"></div> 
+		<div class="n_tank"> 
+			<div class="n_tankhead"></div> 
+			<div class="n_tankCont"> 
+				<span id="alert_msg"></span> 
+			</div>		 
+			<div class="n_tankbut"> 
+				<button class="n_tankbut_but">确认</button> 
+			</div> 
+		</div>	 
+		<!--end 弹框提示-->
+		
+		
+		<!--立即抢购-->
+		<div class="LiHdFloat">
+			<div class="LiHdCenter">
+				<div class="LiFloatZjia">总价格:<span>￥</span><span id="moneylist" class="ListZjia">0</span></div>
+				<div class="LiFloatShu"><span class="numShul">0</span>件商品</div>
+				<div><button id="buycountbutton" class="LiFloatBut">立即抢购</button></div>
+			</div>
+		</div>
+		<!--end 立即抢购-->
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../../static/js/jsdk.js?v1"></script>
+		<script src="tg_time.js?v=1"></script>
+		<script src="detaillist.js?v=10"></script>
+	</body>
+</html>

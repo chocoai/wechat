@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>明医商城</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="../../static/css/reset.css?v=1">
+	<link rel="stylesheet" type="text/css" href="../../static/css/alert.css?v=12">
+</head>
+<body class="bgcolor">
+	<nav class="infor_nav">还需您补充如下信息:</nav>
+	<form  class="infor_wrap" id="member_perfected">
+		<section class="person_infor">
+			<h2>所属人信息</h2>
+			<div class="person_input">
+				<span>所属人名称</span>
+				<input type="text" placeholder="请输入诊所所属人名称" id="name">
+			</div>
+			<div class="sex_input">
+				<span>性别</span>
+				<div><input type="radio" name="sex"  value="0"><em class="current" id="sex_1">1</em>男</div>
+				<div><input type="radio" name="sex"  value="1"><em id="sex_2">2</em>女</div>
+			</div>
+		</section>
+		<section class="hospital_infor">
+			<h2>诊所信息</h2>
+			<article>
+				<h3>诊所业务类型</h3>
+				<ul class="fl_list" id="clinic_scope">
+					<li value="2">西医</li>
+					<li	value="1">中医</li>
+					<li	value="3">中西医均有</li>
+				</ul>
+			</article>
+			<article>
+				<h3>诊所经营性质</h3>
+				<ul class="fl_list" id="clinic_nature">
+					<li value="0">私营</li>
+					<li value="1">公立</li>
+					<li value="2">混营</li>
+				</ul>
+			</article>
+			<article>
+				<h3>诊所业务范围</h3>
+				<ul class="ks_list" id="clinic_division">
+					<li	value="0">全科</li>
+					<li	value="1">专科</li>
+				</ul>
+			</article>
+			<article class="anther_input">
+				<h3><span>科别描述</span><input type="text" placeholder="请填写科别描述" id="division_description"></h3>
+			</article>
+			<article>
+				<h3>诊所人员规模</h3>
+				<ul class="fk_list" id="clinic_scale">
+					<li value="1">1-3</li>
+					<li	value="2">4-6</li>
+					<li	value="3">7-9</li>
+					<li	value="4">10人以上</li>
+				</ul>
+			</article>
+			<article>
+				<h3>诊所建筑面积</h3>
+				<ul class="fl_list" id="clinic_area">
+					<li value="0">100m<sup>2</sup></li>
+					<li	value="1">100m<sup>2</sup>-200m<sup>2</sup></li>
+					<li	value="2">200m<sup>2</sup>-400m<sup>2</sup></li>
+					<li	value="3">400m<sup>2</sup>-600m<sup>2</sup></li>
+					<li	value="4">600m<sup>2</sup>-800m<sup>2</sup></li>
+					<li	value="5">800m<sup>2</sup>以上</li>
+				</ul>
+			</article>
+		</section>
+		<p class="form_submit"><button type="submit">提交</button></p>
+	</form>
+	
+	<input type="hidden" id="clinic_scope_value" />
+	<input type="hidden" id=clinic_nature_value />
+	<input type="hidden" id=clinic_division_value />
+	<input type="hidden" id=clinic_scale_value />
+	<input type="hidden" id=clinic_area_value />
+	
+	<input type="hidden" id="open_id" />
+	
+	<!--弹框提示-->
+ 	<div class="n_tankzz"></div> 
+ 	<div class="n_tank"> 
+ 		<div class="n_tankhead"><span>x</span></div> 
+ 		<div class="n_tankCont"> 
+ 			<span id="alert_msg"></span> 
+ 		</div>		 
+ 		<div class="n_tankbut"> 
+ 			<button class="n_tankbut_but">确认</button> 
+ 		</div> 
+ 	</div>	 
+	<!--end 弹框提示-->
+</body>
+<script src="../../static/js/jquery-1.8.2.min.js"></script>
+<script src="../../static/js/alert.js?v=1"></script>
+<script src="../../static/js/10core.js?v=1"></script>
+<script src="../../static/js/20ajx.js?v=1"></script>
+<script src="../../static/js/60webcfg.js?v=1"></script>
+<script src="../../static/js/common.js?v=1"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=1"></script>
+<script src="../../static/js/jsdk.js?v=1"></script>
+<script src="member_perfected.js?v=1"></script>
+</html>

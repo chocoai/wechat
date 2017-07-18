@@ -1,0 +1,61 @@
+body, div, dl, dt, dd, ul, ol, li, p, span, i, pre, form, label, input, textarea{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+body {
+	font-family:Helvetica;
+	font-family: "微软雅黑";
+	background: #f4f4f4;
+	color: #555555;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	 
+}
+img {
+	border: none;
+	max-width: 100%;
+}
+a {
+	text-decoration: none;
+	color: #535455;
+}
+
+html {
+
+    font-size : 20px;
+}
+@media only screen and (min-width: 375px){
+    html {
+        font-size: 25px !important;
+    }
+}
+@media only screen and (min-width: 401px){
+    html {
+        font-size: 25px !important;
+    }
+}
+@media only screen and (min-width: 428px){
+    html {
+        font-size: 26.75px !important;
+    }
+}
+@media only screen and (min-width: 481px){
+    html {
+        font-size: 30px !important; 
+    }
+}
+@media only screen and (min-width: 569px){
+    html {
+        font-size: 35px !important; 
+    }
+}
+@media only screen and (min-width: 641px){
+    html {
+        font-size: 40px !important; 
+    }
+}
+
+
+

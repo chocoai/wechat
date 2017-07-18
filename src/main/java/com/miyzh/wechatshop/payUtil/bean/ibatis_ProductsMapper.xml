@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.ProductDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.ProductInfo" id="ProductInfoResultMap">
+  		<result property="groupID" column="group_id"/>
+		<result property="productId" column="product_id" />
+		<result property="groupPrice" column="group_price" />
+		<result property="productName" column="name" />
+		<result property="productUrl" column="cdfined3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+  			a.group_id,
+  			a.product_id,
+  			a.group_price,
+  			b.name,
+  			a.cdfined3
+  	</sql>
+	
+	
+	<!--根据用户ID查询 -->
+	<select id="findByProductId" parameterType="Map" resultMap="ProductInfoResultMap">
+		SELECT <include refid="Base_Column_List"/>  from jc_shop_group_buy_item a  
+		  LEFT JOIN jc_shop_product b 
+         on a.product_id=b.product_id
+         where 1=1
+          <if test="groupId != null and groupId != '' ">
+             and  a.group_id = #{groupId}
+          </if>
+          <if test="productId != null and productId != '' ">
+             and  a.product_id = #{productId}
+          </if>
+        
+	</select>
+</mapper>

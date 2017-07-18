@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.groupbuy.dao.IWcGroupBuyDao">
+
+	<resultMap type="com.miyzh.wechatshop.groupbuy.bean.GroupBuy" id="groupBuyResultMap">
+		<result property="id"       column="id"/>
+		<result property="title"       column="title"/>
+  		<result property="period"      column="period"/>
+  		<result property="startTime"   column="start_time"/>
+  		<result property="endTime"     column="end_time"/>
+  		<result property="description"      column="description"/>
+  		<result property="minGroupQuantity" column="min_group_quantity"/>
+  		<result property="minGroupMember"   column="min_group_member"/>
+  		<result property="minBuyQuantity"   column="min_buy_quantity"/>
+  		<result property="minBuyMoney"      column="min_buy_money"/>
+  		<result property="totalGroupNumber" column="total_group_number"/>
+  		<result property="state"       column="state"/>
+  		<result property="createTime"  column="create_time"/>
+  		<result property="updateTime"  column="update_time"/>
+  		<result property="delFlag"     column="del_flag"/>
+  		<result property="posterUrl"   column="poster_url"/>
+  		<result property="twoBarCodeUrl"   column="two_bar_code_url"/>
+  		<result property="smallPosterUrl"  column="small_poster_url"/>
+  		<result property="viewCount" column="view_count"/>
+  		<result property="cdfined1"  column="cdfined1"/>
+  		<result property="cdfined2"  column="cdfined2"/>
+  		<result property="cdfined3"  column="cdfined3"/>
+  		<result property="cdfined4"  column="cdfined4"/>
+  		<result property="sponsors"  column="sponsors"/>
+  		<result property="isVisible" column="is_visible"/>
+  		<result property="isClick"   column="is_click"/>
+  		<result property="isRestrictArea" column="is_restrict_area"/>
+  		<result property="isPostage"      column="is_postage"/>
+  		<result property="overviewVisibleLevel" column="overview_visible_level"/>
+  		<result property="previewVisibleLevel"  column="preview_visible_level"/> 
+  		<result property="detailVisibleLevel"   column="detail_visible_level"/>
+  		<result property="wtImgurl"   column="wt_img_url"/>
+  		<result property="cheapmoney"   column="cheapmoney"/>
+  		<result property="countryName"   column="country_name"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+			m.id,
+  			m.title,
+  			m.two_bar_code_url,
+  			m.poster_url,
+  			m.small_poster_url,
+  			m.cdfined3,
+  			m.start_time,
+  			m.end_time,
+  			m.min_buy_money,
+  			m.min_group_member,
+  			m.min_group_quantity,
+  			m.min_buy_quantity,
+  			m.is_postage,
+  			m.wt_img_url,
+  			m.description,
+  			m.overview_visible_level,
+  			m.preview_visible_level,
+  			m.detail_visible_level,
+  			m.is_restrict_area
+  	</sql>
+	
+	<select id="findByGroupId" resultMap="groupBuyResultMap" parameterType="String">
+  	     select 
+  	     	<include refid="Base_Column_List"/> 
+  	     from 
+  	     	jc_shop_group_buy m 
+		 where 
+			m.del_flag='0'
+			and m.state='1' 
+			and m.id = #{id}
+  	</select>
+  	
+  	<select id="findNowGroupBuyInfo" resultMap="groupBuyResultMap" parameterType="Map">
+  	     select 
+  	     	(select sum(sale_price)-sum(group_price) from jc_shop_group_buy_item i where i.group_id = m.id) as cheapmoney,
+  			a.country_name,     	
+  	     	<include refid="Base_Column_List"/> 
+  	     from jc_shop_group_buy m 
+  	     left JOIN jc_shop_group_buy_area a ON m.id = a.group_id 
+  	     where 
+  	     	m.del_flag='0'  
+  	     	and m.state='1' 
+  	     	and m.group_visible_type in (0,2) 
+  	     	and m.start_time <![CDATA[ <= ]]>#{today}
+  	     	and m.end_time <![CDATA[ >= ]]> #{today}
+  	     	and m.overview_visible_level <![CDATA[ <= ]]> #{overviewVisibleLevel}
+  	     	<if test="countryCode != null and countryCode != ''">  
+			     and (m.is_restrict_area = '2' 
+			     or a.country_code = #{countryCode})
+			</if>
+			<if test="countryCode == null or countryCode == ''">  
+			     and m.is_restrict_area = '2'
+			</if>
+  	</select>
+  	<select id="findFinishGroupBuyInfo" resultMap="groupBuyResultMap" parameterType="Map">
+  	     select 
+  	        (select sum(sale_price)-sum(group_price) from jc_shop_group_buy_item i where i.group_id = m.id) as cheapmoney,
+  	     	<include refid="Base_Column_List"/> 
+  	     from jc_shop_group_buy m 
+  	     left JOIN jc_shop_group_buy_area a ON m.id = a.group_id 
+  	     where 
+  	     	m.del_flag='0'  
+  	     	and m.state='1' 
+  	     	and m.group_visible_type in (0,2) 
+  	     	and m.end_time <![CDATA[ < ]]> #{today}
+  	     	and m.overview_visible_level <![CDATA[ <= ]]> #{overviewVisibleLevel}
+  	     	<if test="countryCode != null and countryCode != ''">  
+			     and (m.is_restrict_area = '2' 
+			     or a.country_code = #{countryCode})
+			</if>
+			<if test="countryCode == null or countryCode == ''">  
+			     and m.is_restrict_area = '2'
+			</if>
+			order by  m.end_time  desc 
+  	</select>
+  	<select id="findNoStartGroupBuyInfo" resultMap="groupBuyResultMap" parameterType="Map">
+  	     select
+  	        (select sum(sale_price)-sum(group_price) from jc_shop_group_buy_item i where i.group_id = m.id) as cheapmoney,
+  	     	<include refid="Base_Column_List"/> 
+  	     from jc_shop_group_buy m 
+  	     left JOIN jc_shop_group_buy_area a ON m.id = a.group_id 
+  	     where 
+  	     	m.del_flag='0'  
+  	     	and m.state='1' 
+  	     	and m.group_visible_type in (0,2) 
+  	     	and m.start_time <![CDATA[ > ]]> #{today}
+  	     	and m.overview_visible_level <![CDATA[ <= ]]> #{overviewVisibleLevel}
+  	     	<if test="countryCode != null and countryCode != ''">  
+			     and (m.is_restrict_area = '2' 
+			     or a.country_code = #{countryCode})
+			</if>
+			<if test="countryCode == null or countryCode == ''">  
+			     and m.is_restrict_area = '2'
+			</if>
+  	</select>
+	
+</mapper>

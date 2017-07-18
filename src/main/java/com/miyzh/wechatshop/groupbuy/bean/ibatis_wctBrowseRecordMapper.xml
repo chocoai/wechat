@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.groupbuy.dao.IBrowseRecordDao">
+
+	<resultMap type="com.miyzh.wechatshop.groupbuy.bean.BrowseRecord"
+		id="browseRecordResultMap">
+		<result property="openId" column="open_id" />
+		<result property="grouponKey" column="groupon_key" />
+		<result property="browseDate" column="browse_date" />
+		<result property="recommedUserKey" column="recommed_user_key" />
+		<result property="browseType" column="browse_type" />
+	</resultMap>
+
+	<!--增加 -->
+	<insert id="create" parameterType="com.miyzh.wechatshop.groupbuy.bean.BrowseRecord">
+		INSERT INTO wt_browse_record(
+			open_id,
+			groupon_key,
+			browse_date,
+			recommed_user_key,
+			browse_type
+		) VALUES(
+			#{openId},
+			#{grouponKey},
+			#{browseDate},
+			#{recommedUserKey},
+			#{browseType}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.AddressDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.Address" id="addressResultMap">
+  		<result property="id" column="id"/>
+		<result property="name" column="name"  />
+		<result property="code" column="code"  />
+		<result property="priority" column="priority" />
+        <result property="parent" column="parent_id" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+  			id,
+  			name,
+  			code
+  	</sql>
+	
+	
+	<!--根据用户ID查询 -->
+	<select id="findByParentId" parameterType="Map" resultMap="addressResultMap">
+		SELECT <include refid="Base_Column_List"/>  from jc_address a  where 1=1
+          <if test="ParentId != null and ParentId != '' ">
+             and  a.parent_id = #{ParentId}
+          </if>
+         <if test="ParentId == null or ParentId == '' ">
+             and  a.parent_id is null
+         </if>
+	</select>
+	
+	<!--根据ID查询 -->
+	<select id="findByMap" parameterType="Map" resultMap="addressResultMap">
+		SELECT <include refid="Base_Column_List"/>  from jc_address a  where 1=1
+          <if test="id != null and id != '' ">
+             and  a.id = #{id}
+          </if>
+          <if test="code != null and code != '' ">
+             and  a.code = #{code}
+          </if>
+	</select>
+	
+	
+	<!--查询省、市、县 -->
+	<select id="findAddress" parameterType="Map" resultMap="addressResultMap">
+		SELECT 
+			<include refid="Base_Column_List"/> 
+		FROM 
+			jc_address 
+		where 
+			1 = 1
+		<if test ="name != null and name != ''">
+				and  LOCATE(#{name},NAME) != 0
+		</if>
+		order by  id
+		limit 1
+	</select>
+</mapper>

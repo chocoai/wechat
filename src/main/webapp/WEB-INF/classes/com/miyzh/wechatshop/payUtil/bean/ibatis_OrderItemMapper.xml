@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.OrderItemDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.ShopOrderItem"
+		id="OrderItemResultMap">
+		<result property="id" column="orderitem_id" />
+		<result property="count" column="count" />
+		<result property="salePrice" column="sale_price" />
+		<result property="discussStatus" column="discuss_status" />
+		<result property="website" column="website_id" />
+		<result property="product" column="product_id" />
+		<result property="ordeR" column="order_id" />
+		<result property="name" column="name" />
+		<result property="cdfined3" column="cdfined3" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		a.orderitem_id,
+		a.count,
+		a.sale_price,
+		a.discuss_status,
+		a.website_id,
+		a.product_id,
+		a.order_id,
+		c.name,
+		p.cdfined3
+	</sql>
+	<!--增加 -->
+	<insert id="saveOrderItems" parameterType="java.util.List"  >
+	INSERT INTO jc_shop_order_item (
+		count,
+		sale_price,
+		discuss_status,
+		website_id,
+		product_id,
+		order_id
+		)VALUES
+	<foreach collection="list" item="ShopOrderItem" index="index" separator=",">
+		(
+		#{ShopOrderItem.count,jdbcType=INTEGER},
+		#{ShopOrderItem.salePrice,jdbcType=DOUBLE},
+		0,
+		1,
+		#{ShopOrderItem.product,jdbcType=BIGINT},
+		#{ShopOrderItem.ordeR,jdbcType=BIGINT}
+		)
+	</foreach>
+	</insert>
+   
+
+	<!--查询所有数据 -->
+	<select id="getAll" resultMap="OrderItemResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from jc_shop_order_item
+	</select>
+
+
+	<!--根据用户ID查询 -->
+	<select id="findByOrderId" parameterType="String"
+		resultMap="OrderItemResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+  	     from jc_shop_order_item a
+  	     left join jc_shop_group_buy_item p on a.product_id = p.product_id 
+  	     left join jc_shop_product c on p.product_id = c.product_id 
+  	     where 
+  	     	a.order_id = #{orderId}
+  	     	and p.group_id=#{groupId}
+
+	</select>
+</mapper>

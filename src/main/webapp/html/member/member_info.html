@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>明医商城</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <link href="../../static/css/reset.css?v=12" rel="stylesheet" type="text/css">
+    <link href="../../static/css/code.css?v=121" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/alert.css?v=5">
+</head>
+
+<body style="background: #F6F6F6">
+    
+    <div class="M_information_body">
+        <div class="M_information">
+            <div class="information_title">认证信息</div>
+            <a id="status_url">
+                <dl>
+                    <dt class="meZhuangt">状态</dt>
+                    <dd id="status">
+                    </dd>
+                </dl>
+            </a>
+            <div id="perfected" style="display: none">
+                <a id="perfected_clinic_info_url">
+                    <dl>
+                        <dt>完成度</dt>
+                        <dd>完善用户信息
+                        </dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+        <div class="M_information">
+            <div class="information_title">个人资料</div>
+            <dl class="photo menJifen">
+                <dt>头像</dt>
+                <dd class="touImg">
+                    <img id="headurl">
+                </dd>
+            </dl>
+            <dl class="menJifen">
+                <dt>积分</dt>
+                <dd id="credit" class="jifen">
+                </dd>
+            </dl>
+            <a id="addresscount_url">
+                <dl>
+                    <dt class="memberAdd">地址管理</dt>
+                    <dd id="addresscount">
+                    </dd>
+                </dl>
+            </a>
+            <a id="qrcodecount_url">
+                <dl>
+                    <dt>我的推广二维码</dt>
+
+                    <dd id="qrcodecount">
+                    </dd>
+
+                </dl>
+            </a>
+        </div>
+        <div class="M_information">
+            <div class="information_title">账号安全</div>
+            <dl class="menJifen">
+                <dt>手机号</dt>
+                <dd id="phonenum"></dd>
+            </dl>
+            <dl class="menJifen">
+                <dt>密码</dt>
+                <dd>＊＊＊＊＊＊</dd>
+            </dl>
+        </div>
+    </div>
+    <!--弹框提示-->
+ 	<div class="n_tankzz"></div> 
+ 	<div class="n_tank"> 
+ 		<div class="n_tankhead"><span>x</span></div> 
+ 		<div class="n_tankCont"> 
+ 			<span id="alert_msg"></span> 
+ 		</div>		 
+ 		<div class="n_tankbut"> 
+ 			<button class="n_tankbut_but">确认</button> 
+ 		</div> 
+ 	</div>	 
+	<!--end 弹框提示-->
+    <input type="hidden" id="open_id" />
+</body>
+<script src="../../static/js/jquery-1.8.2.min.js"></script>
+<script src="../../static/js/10core.js?v=1"></script>
+<script src="../../static/js/20ajx.js?v=1"></script>
+<script src="../../static/js/60webcfg.js?v=1"></script>
+<script src="../../static/js/common.js?v=1"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=1"></script>
+<script src="../../static/js/jsdk.js?v=1"></script>
+<script src="member_info.js?v=5"></script>
+<script src="../../static/js/alert.js?v=1"></script>
+</html>

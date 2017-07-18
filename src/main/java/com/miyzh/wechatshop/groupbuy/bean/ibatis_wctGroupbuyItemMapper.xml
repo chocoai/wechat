@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.groupbuy.dao.IWcGroupBuyItemDao">
+
+	<resultMap type="com.miyzh.wechatshop.groupbuy.bean.GroupBuyItem" id="groupBuyItemResultMap">
+		<result property="id" column="id" />
+		<result property="salePrice" column="sale_price" />
+		<result property="groupPrice" column="group_price" />
+		<result property="standard" column="standard" />
+		<result property="unit" column="unit" />
+		<result property="name" column="name" />
+		<result property="coverImg" column="cover_img" />
+		<result property="cdfined1" column="cdfined1" />
+		<result property="cdfined2" column="cdfined2" />
+		<result property="cdfined3" column="cdfined3" />
+		<result property="manufacturer" column="manufacturer" />
+		<result property="approveNumber" column="approveNumber" />
+		<result property="description" column="description" />
+		<result property="productId" column="product_id" />
+	</resultMap>
+			
+	<sql id="Base_Column_List">
+  			m.id,
+			m.sale_price,
+			m.group_price,
+			m.standard,
+			m.unit,
+			m.cdfined3,
+			m.cdfined2,
+			p.name
+  	</sql>
+	
+  	<select id="findByGroupBuyId" resultMap="groupBuyItemResultMap" parameterType="String">
+  	     select 
+  	     	m.id,
+			m.sale_price,
+			m.group_price,
+			m.unit,
+			m.cdfined3,
+			m.cdfined2,
+			p.name,
+			m.description,
+			m.product_id,
+			(select attr_value from jc_shop_product_attr a where a.product_id = m.product_id and a.attr_name = 'standard') as standard,
+			(select attr_value from jc_shop_product_attr a where a.product_id = m.product_id and a.attr_name = 'manufacturer') as manufacturer,
+			(select attr_value from jc_shop_product_attr a where a.product_id = m.product_id and a.attr_name = 'approveNumber') as approveNumber 
+  	     from jc_shop_group_buy_item m 
+  	     inner join jc_shop_product p on m.product_id = p.product_id 
+  	     where 
+  	     	m.group_id = #{groupBuyId} 
+  	     	and m.cdfined1 = '1'
+  	</select>
+  	
+  	<select id="queryCountByGroupBuyId" resultType="Integer" parameterType="String">
+  	     select 
+  	     	count(1) 
+  	     from jc_shop_group_buy_item m 
+  	     where 
+  	     	m.group_id = #{groupBuyId} 
+  	     	and m.cdfined1 = '1'
+  	</select>
+	
+</mapper>

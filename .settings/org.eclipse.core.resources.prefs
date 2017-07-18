@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//configs/online/common.properties=UTF-8
+encoding//configs/online/wechat.properties=utf-8
+encoding//configs/test/common.properties=utf-8
+encoding//configs/test/wechat.properties=UTF-8
+encoding//src/main/resources/common.properties=UTF-8
+encoding//src/main/resources/log4j.properties=utf-8
+encoding//src/main/resources/wechat.properties=utf-8
+encoding//src/main/webapp/static/css/alert.css=utf-8
+encoding/<project>=utf-8

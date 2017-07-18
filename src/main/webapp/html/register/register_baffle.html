@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../static/js/jquery-1.8.2.min.js"></script>
+    <script src="../../static/js/10core.js?v=1"></script>
+    <script src="../../static/js/20ajx.js?v=1"></script>
+    <script src="../../static/js/60webcfg.js?v=1"></script>
+    <script src="../../static/js/common.js?v=1"></script>
+</head>
+
+<body onload="goBack()">
+    <input type="hidden" id="jump_flag" value="0" />
+    <script type="text/javascript">
+        function goBack() {
+
+        	var jump_flag = $("#jump_flag");
+        	if(jump_flag.val() == 0){
+        		
+        		loadData();
+        		jump_flag.val(1); 
+            	
+        	}
+        	else{
+            	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        			WeixinJSBridge.call('closeWindow');
+       			});
+        	}
+        }
+
+        function loadData() {
+            var params = vge.urlparse(location.href);
+            if (params.openid == undefined) {
+                var requestParamOpenid = getRequestParam();
+                requestParamOpenid.commandinfo.code = params.code;
+                if (params.code != undefined) {
+                    vge.ajxpost(vge.japi + '/wctUserInfo/getWctSnsapiBase.do', JSON.stringify(requestParamOpenid), 10000, function (data) {
+                        var jo = JSON.parse(data);
+                        if (jo.result.code == 0 && jo.reply != undefined) {
+                            if (jo.reply.obj.openid != undefined) {
+                                //判断用户状态并跳转
+                                getUserType(jo.reply.obj.openid);
+                            }
+                        } else {
+                            alert("openid加载失败,失败原因->" + jo.result.msg + ",失败代码->" + jo.result.code + ",业务代码->" + jo.result.businesscode);
+                        }
+                    }, function (t) {
+                        alert(t);
+                    });
+                } else {
+                    //跳转获取页面原参数
+                    sendRedirectByGetCode(location.href);
+                    //alert("为在微信打开!code为空,不允许使用");
+                }
+            } else {
+                //判断用户状态并跳转
+                getUserType(params.openid);
+            }
+        }
+
+
+
+         //判断用户状态并跳转
+        function getUserType(openId) {
+            if (openId != "") {
+                var requestParam = getRequestParam();
+                requestParam.commandinfo.openid = openId;
+                var url = vge.webcontext + "/userAction/getUserType.do";
+
+                // post请求
+                vge.ajxpost(url, JSON.stringify(requestParam), 50000, function (data) {
+                    try {
+                        var jo = JSON.parse(data);
+                        if (jo.result.code == 0 && jo.result.businesscode == 0) {
+                            var userType = jo.reply.usertype;
+                            if (userType == 0) {
+                                //用户注册
+                                window.location = vge.webcontext + "/html/login/login.html?openid=" + openId + "&v=" + Math.random();
+                            } else if (userType == 1) {
+                                //诊所认证
+                                window.location = vge.webcontext + "/html/clinic/clinic_disclaimer.html?openid=" + openId + "&v=" + Math.random();
+                            } else if (userType == 2) {
+                                //待审核
+                                window.location = vge.webcontext + "/html/clinic/clinic_check.html?openid=" + openId + "&v=" + Math.random();
+                            } else if (userType == 3) {
+                                var clinicErrorUrl = vge.webcontext + "/html/clinic/clinic_error.html?openid=" + openId + "&certificateOpinion=" + jo.reply.certificateOpinion + "&v=" + Math.random();
+                                clinicErrorUrl = encodeURI(clinicErrorUrl);
+                                //审核不通过
+                                window.location = clinicErrorUrl;
+                            } else if (userType == 4) {
+                                //认证通过
+                                window.location = vge.webcontext + "/html/clinic/clinic_success.html?openid=" + openId + "&v=" + Math.random();
+                            } else if (userType == 5) {
+                                //完善诊所信息
+                                window.location = vge.webcontext + "/html/clinic/clinic_update.html?openid=" + openId + "&v=" + Math.random();
+                            }
+
+                        } else {
+                            alert(jo.result.msg);
+                        }
+                    } catch (e) {
+                        alert(e);
+                    }
+
+                }, function (e) {
+                    alert(e);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

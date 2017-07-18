@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>明医商城</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
+</head>
+<body class="wbg">
+	<div class="pay_wrap">
+		<h2>交易成功</h2>
+		<ul class="order_list" id="select1">
+			
+		</ul>
+		<div class="order_btns">
+			<a onclick="viewOrder()" class="see_order">查看订单</a><a onclick="viewTcodeId()" class="ewm_order">我的二维码</a>
+		</div>
+	</div>
+	<div class="reminder_text">
+		<h2>友情提示：</h2>
+		<ul>
+			<li>1、交易成功后，我们将安排工作人员尽快为您发货</li>
+			<li>2、如需取消订单，请您联系我们的客服人员</li>
+			<li>3、点击〝我的二维码〞后，您将获取您的分享专属二维码，您可以长按保存后，将图片保存至您的相册中并分享。</li>
+		</ul>
+		<p>客服电话：400-865-1166</p>
+	</div>
+	
+		<input type="hidden" id="orderid">
+		<input type="hidden" id="opendid">
+		<input type="hidden" id="memberid">
+		<input type="hidden" id="groupid">
+		<input type="hidden" id="addressid">
+</body>
+	<script src="../../static/js/jquery-1.8.2.min.js"></script>
+<script src="../../static/js/time.js"></script>
+<script src="../../static/js/10core.js"></script>
+<script src="../../static/js/20ajx.js"></script>
+<script src="../../static/js/60webcfg.js?v=1"></script>
+<script src="../../static/js/common.js?v=1"></script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../../static/js/jsdk.js?v1"></script>
+		<script src="payResult.js?v=2"></script>
+</html>

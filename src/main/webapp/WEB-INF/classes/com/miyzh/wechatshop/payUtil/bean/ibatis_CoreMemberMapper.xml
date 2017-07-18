@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.CoreMemberDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.CoreMember" id="CoreMemberResultMap">
+  		<result property="memberId" column="member_id"/>
+		<result property="disabled" column="is_disabled" />
+		<result property="active" column="is_active" />
+		<result property="activationCode" column="activation_code" />
+		<result property="userId" column="user_id"  />
+		<result property="website" column="website_id" />
+		
+		<result property="username" column="username" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="createTime" column="create_time" />
+		<result property="loginCount" column="login_count" />
+		<result property="registerIp" column="register_ip" />
+		<result property="lastLoginTime" column="last_login_time" />
+		<result property="lastLoginIp" column="last_login_ip" />
+		<result property="currentLoginTime" column="current_login_time" />
+		<result property="currentLoginIp" column="current_login_ip" />
+		<result property="resetKey" column="reset_key" />
+		<result property="resetPwd" column="reset_pwd" />
+		<result property="ucenterId" column="ucenter_id" />
+		<result property="clinicCode" column="clinic_code" />
+		<result property="userType" column="user_type" />
+		<result property="clinicName" column="clinic_name" />
+		<result property="tgCode" column="tg_code" />
+		<result property="doctorName" column="doctor_name" />
+		<result property="doctorPhone" column="doctor_phone" />
+		
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+  			member_id,
+  			create_time,
+  			username,
+  			email,
+  			password,
+  			user_id,
+  			clinic_code,
+  			clinic_name,
+  			tg_code
+  	</sql>
+	
+	
+	
+	<!--根据用户ID查询 -->
+	<select id="findByMemberId" parameterType="String"  resultMap="CoreMemberResultMap">
+		SELECT <include refid="Base_Column_List"/>  from jc_core_member a 
+		left join jc_core_user b
+		 on a.user_id=b.user_id where 1=1
+		   <if test="memberId != null and memberId != '' ">
+             and  a.member_id = #{memberId}
+          </if> 
+          limit 1
+	</select>
+</mapper>

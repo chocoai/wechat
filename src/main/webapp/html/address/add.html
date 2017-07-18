@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>明医商城</title>
+<meta
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+	name="viewport">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/code.css?v=12">
+		<link rel="stylesheet" type="text/css" href="../../static/css/alert.css?v=12">
+
+</head>
+<body>
+	
+	<div class="address">
+		<div class="information">
+			<dl>
+				<dt>
+					收货人<i>*</i>
+				</dt>
+				<dd>
+					<input type="text" id="username" placeholder="请输入收货人名称">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					手机号码<i>*</i>
+				</dt>
+				<dd>
+					<input type="tel" id="tel" maxlength="11" placeholder="请输入联系电话">
+				</dd>
+			</dl>
+		</div>
+		<div class="block"></div>
+		<div class="detailed">
+			<dl>
+				<dt>收货地址</dt>
+				<dd>
+					<P id="itemprovince">
+						<select id="provinceId">
+							<option value="">请选择省</option>
+						</select>
+					</P>
+					<P id="itemcity">
+						<select id='cityId'>
+							<option value="">请选择市</option>
+						</select>
+					</P>
+					<P id="itemarea">
+						<select id='countryId'>
+							<option value="">请选择区</option>
+						</select>
+					</P>
+				</dd>
+			</dl>
+		</div>
+		<div class="information">
+			<dl>
+				<dt>
+					详细地址<i>*</i>
+				</dt>
+				<dd>
+					<input type="text" id="detailaddress" placeholder="请输入详细地址">
+				</dd>
+			</dl>
+		</div>
+		<div class="lable_">
+			<label><input name="Fruit" type="checkbox" value=""  />
+				设为默认地址</label>
+		</div>
+		<div class="btn">
+			<button type="button" onclick="saveAddress();">保存地址</button>
+		</div>
+   <input type="hidden" id="memberid" />
+   <input type="hidden" id="groupid"/>
+	<input type="hidden" id="products"/>
+	<input type="hidden" id="openid"/>
+	<input type="hidden" id="flag"/>
+	</div>
+	
+		
+		<!---加载显示-->
+	<div class="n_tankzz1"></div>
+	<div class="n_jiaz"><img src="../../static/img/lgo.gif?v=wmd122"/></div>
+	<!--end 加载显示-->
+	
+</body>
+<script src="../../static/js/jquery-1.8.2.min.js"></script>
+<script src="../../static/js/time.js"></script>
+<script src="../../static/js/10core.js"></script>
+<script src="../../static/js/20ajx.js"></script>
+<script src="../../static/js/60webcfg.js?v=1"></script>
+<script src="../../static/js/common.js?v=1"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="../../static/js/jsdk.js?v1"></script>
+<script src="add.js?v=6"></script>
+
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.ShopSendLogDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.ShopSendLog"
+		id="ShopSendLogResultMap">
+		<result property="id" column="id" />
+		<result property="phone" column="phone" />
+		<result property="sendType" column="sendType" />
+		<result property="sendNum" column="sendNum" />
+		<result property="status" column="status" />
+		<result property="content" column="content" />
+		<result property="megEss" column="megess" />
+		<result property="credateTmp" column="credate" />
+		<result property="sendDate" column="senddate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		phone,
+		sendType,
+		sendNum,
+		status,
+		content,
+		megess,
+		credate,
+		sendDate
+	</sql>
+	<!--增加 -->
+	<insert id="saveSendLog" useGeneratedKeys="true" keyProperty="id"   parameterType="com.miyzh.wechatshop.payUtil.bean.ShopSendLog">
+		INSERT INTO
+		jc_send_log(
+		phone,
+		sendType,
+		sendNum,
+		status,
+		content,
+		megess,
+		credate,
+		sendDate
+		)
+		VALUES(
+		#{phone,jdbcType=VARCHAR},
+		#{sendType,jdbcType=INTEGER},
+		#{sendNum,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR},
+		#{megEss,jdbcType=VARCHAR},
+		now(),
+		now()
+		)
+	</insert> 
+
+</mapper>

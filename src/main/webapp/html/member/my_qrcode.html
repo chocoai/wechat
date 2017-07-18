@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>明医商城</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
+	<script src="../../static/js/jquery-1.8.2.min.js"></script>
+	<script src="../../static/js/10core.js"></script>
+	<script src="../../static/js/20ajx.js"></script>
+	<script src="../../static/js/60webcfg.js?v=1"></script>
+	<script src="../../static/js/common.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="../../static/js/jsdk.js?v1"></script>
+	<script type="text/javascript">
+	   $(function() {
+		    wx.ready(function() { //隐藏微信分享
+               wx.hideOptionMenu();
+            });
+			var params = vge.urlparse(location.href);
+		    var requestParam = getRequestParam();
+		    requestParam.commandinfo.id = params.tcodeId;
+		    requestParam.commandinfo.memberid = params.memberid;
+		    requestParam.commandinfo.groupid = params.groupid;
+			var url = vge.japi+'/TCodeByMember/queryMyQRcode.do';
+			// post请求
+			vge.ajxpost(url, JSON.stringify(requestParam), 100000, function(data) {
+				try {
+					var jo = JSON.parse(data);
+					if (jo.result.businesscode == 0) {
+						var  groupName = jo.obj.groupName;
+						var  groupEnddate = jo.obj.groupEnddate;
+						$("#groupName").html(groupName);
+						$("#validDate").html("此二维码有效期至"+groupEnddate);
+						$(".ewm_img").attr("src",vge.alimgsrv+"/"+jo.obj.urlPath);
+					}else  if(jo.result.businesscode == 2){
+						alert("获取我的二维码失败");
+					}else if(jo.result.businesscode == 3){
+						alert("业务表无我的二维码数据");
+					}else{
+						alert(jo.result.msg);
+					}
+				} catch (e) {
+					alert(e);
+				}
+			}, function(e) {
+				alert(e);
+			});
+		});
+   </script>
+</head>
+<body class="ewm_bg">
+	<section class="ewm_wrap">
+		<img src="../../static/img/logo.png" alt="明医商城" class="logo">
+		<img src="" class="ewm_img">
+		<p id="validDate"></p>
+		<div class="ewm_reminder">
+			<span>长按二维码，点击识别二维码</span>
+		</div>
+		<img src="" class="product_img">
+		<div class="ad_text">
+			<h3 id="groupName">夏日清爽 团购聚惠</h3>
+			<h4>致力为您提供高价值低价格的服务体验</h4>
+		</div>
+	</section>
+</body>
+</html>

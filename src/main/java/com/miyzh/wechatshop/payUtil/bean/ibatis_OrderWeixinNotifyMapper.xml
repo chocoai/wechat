@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.OrderWeixinNotifyDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.OrderWeixinNotify"
+		id="OrderWeixinNotifyResultMap">
+		<result property="id" column="id" />
+		<result property="codeId" column="code_id" />
+		<result property="orderCode" column="order_code" />
+		<result property="notifyFlag" column="notify_flag" />
+		<result property="orderType" column="order_type" />
+		<result property="webchatCode" column="webchat_code" />
+		<result property="notifyTime" column="notify_time" />
+		<result property="cretaTime" column="creta_time" />
+		<result property="sign" column="sign" />
+		<result property="openId" column="openId" />
+		<result property="resultCode" column="result_code" />
+		<result property="errCode" column="err_code" />
+		<result property="errCodeDes" column="err_code_des" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		code_id,
+		order_code,
+		notify_flag,
+		order_type,
+		webchat_code,
+		notify_time,
+		creta_time,
+		sign,
+		openId,
+		result_code,
+		err_code,
+		err_code_des
+	</sql>
+	<!--增加 -->
+	<insert id="create" parameterType="com.miyzh.wechatshop.payUtil.bean.OrderWeixinNotify">
+		INSERT INTO
+		jc_shop_order_weixin_notify(
+		code_id,
+		order_code,
+		notify_flag,
+		order_type,
+		webchat_code,
+		notify_time,
+		creta_time,
+		sign,
+		openId,
+		result_code,
+		err_code,
+		err_code_des
+		)
+		VALUES
+		(
+		#{codeId,jdbcType=VARCHAR},
+		#{orderCode,jdbcType=VARCHAR},
+		#{notifyFlag,jdbcType=INTEGER},
+		#{orderType,jdbcType=INTEGER},
+		#{webchatCode,jdbcType=VARCHAR},
+		NOW(),
+		NOW(),
+		#{sign,jdbcType=VARCHAR},
+		#{openId,jdbcType=VARCHAR},
+		#{resultCode,jdbcType=VARCHAR},
+		#{errCode,jdbcType=VARCHAR},
+		#{errCodeDes,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!--修改 -->
+	<update id="update" parameterType="com.miyzh.wechatshop.payUtil.bean.OrderWeixinNotify">
+		UPDATE jc_shop_order_weixin_notify
+		SET
+		sign = #{sign},
+		order_code = #{orderCode},
+        err_code_des=#{errCodeDes}
+		where id = #{id}
+	</update>
+
+
+	<!--根据ID查询 -->
+	<select id="findById" parameterType="String" resultMap="OrderWeixinNotifyResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from jc_shop_order_weixin_notify where code_id = #{codeId}
+		limit 1
+	</select>
+
+</mapper>

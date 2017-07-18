@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.OrderDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.ShopOrder" id="shopOrderResultMap">
+  		<result property="orderId" column="order_id"/>
+		<result property="code" column="code" />
+		<result property="comments" column="comments" />
+		<result property="ip" column="ip" />
+		<result property="createTime" column="create_time" />
+		<result property="shippingTime" column="shipping_time"/>
+		<result property="finishedTime" column="finished_time" />
+		<result property="lastModified" column="last_modified" />
+		<result property="productPrice" column="product_price" />
+		<result property="freight" column="freight" />
+		<result property="total" column="total" />
+		<result property="score" column="score" />
+		<result property="weight" column="weight" />
+		<result property="couponPrice" column="coupon_price" />
+		<result property="productName" column="productName" />
+		<result property="paymentStatus" column="payment_status" />
+		<result property="shippingStatus" column="shipping_status" />
+		<result property="printSatus" column="print_satus" />
+		<result property="status" column="status" />
+		<result property="paymentCode" column="payment_code" />
+		<result property="receiveName" column="receive_name" />
+		<result property="receiveAddress" column="receive_address" />
+		<result property="receiveZip" column="receive_zip" />
+		<result property="receivePhone" column="receive_phone" />
+		<result property="tgCode" column="tg_code" />
+		<result property="receiveMobile" column="receive_mobile" />
+		<result property="clinicCode" column="clinic_code" />
+		<result property="clinicName" column="clinic_name" />
+		<result property="discussStatus" column="discuss_status" />
+		<result property="OrderType" column="order_type" />
+		<result property="website" column="website_id" />
+		<result property="member" column="member_id" />
+		<result property="payment" column="payment_id" />
+		<result property="clinicCodeSalaman" column="clinic_code_salaman" />
+		<result property="ShipmentsId" column="shipments_id" />
+		<result property="shipping" column="shipping_id"/>
+		<result property="groupBuy" column="group_id" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+  			order_id,
+  			code,
+  			payment_id,
+  			order_type,
+  			DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+  			DATE_FORMAT(last_modified,'%Y-%m-%d') last_modified,
+  			total,
+  			payment_status,
+  			status,
+  			shipping_status,
+  			clinic_code,
+  			member_id,
+  			group_id,
+  			receive_name,
+  			receive_address,
+  			receive_mobile
+  			
+  	</sql>
+	<!--增加 -->
+	<insert id="saveOrder" useGeneratedKeys="true" keyProperty="orderId"  parameterType="com.miyzh.wechatshop.payUtil.bean.ShopOrder">
+	INSERT INTO jc_shop_order(
+	website_id,
+	payment_id,
+	member_id,
+	shipping_id,
+	code,
+	status,
+	payment_status,
+	shipping_status,
+	product_price,
+	weight,
+	freight,
+	total,
+	score,
+	ip,
+	create_time,
+	finished_time,
+	last_modified,
+	comments,
+	shipping_time,
+	coupon_price,
+	productName,
+	return_id,
+	receive_name,
+	receive_address,
+	receive_zip,
+	receive_phone,
+	receive_mobile,
+	clinic_code,
+	clinic_name,
+	shipments_id,
+	sendlog_id,
+	discuss_status,
+	tg_code,
+	order_type,
+	group_id,
+	print_satus
+	)VALUES(
+	#{website,jdbcType=BIGINT},
+	#{payment,jdbcType=BIGINT},
+	#{member,jdbcType=BIGINT},
+	#{shipping,jdbcType=BIGINT},
+	#{code,jdbcType=VARCHAR},
+	#{status,jdbcType=INTEGER},
+	#{paymentStatus,jdbcType=INTEGER},
+	#{shippingStatus,jdbcType=INTEGER},
+	#{productPrice,jdbcType=DOUBLE},
+	#{weight,jdbcType=INTEGER},
+	#{freight,jdbcType=DOUBLE},
+	#{total,jdbcType=DOUBLE},
+	#{score,jdbcType=INTEGER},
+	#{ip,jdbcType=VARCHAR},
+	now(),
+	now(),
+	now(),
+	#{comments,jdbcType=VARCHAR},
+	now(),
+	#{couponPrice,jdbcType=DOUBLE},
+	#{productName,jdbcType=VARCHAR},
+	#{returnOrder,jdbcType=BIGINT},
+	#{receiveName,jdbcType=VARCHAR},
+	#{receiveAddress,jdbcType=VARCHAR},
+	#{receiveZip,jdbcType=VARCHAR},
+	#{receivePhone,jdbcType=VARCHAR},
+	#{receiveMobile,jdbcType=VARCHAR},
+	#{clinicCode,jdbcType=VARCHAR},
+	#{clinicName,jdbcType=VARCHAR},
+	#{ShipmentsId,jdbcType=INTEGER},
+	#{sendlog,jdbcType=BIGINT},
+	#{discussStatus,jdbcType=SMALLINT},
+	#{tgCode,jdbcType=VARCHAR},
+	#{OrderType,jdbcType=VARCHAR},
+	#{groupBuy,jdbcType=BIGINT},
+	#{printSatus,jdbcType=INTEGER}
+	)
+	
+	</insert>
+	
+	
+	<!--修改 -->
+	<update id="orderPay" parameterType="com.miyzh.wechatshop.payUtil.bean.ShopOrder">
+		UPDATE jc_shop_order SET
+		        payment_status=2,
+		    last_modified=now()
+		  where order_id = #{orderId}
+	</update>
+	
+	
+	<!--确认收货 -->
+	<update id="orderConfirm" parameterType="com.miyzh.wechatshop.payUtil.bean.ShopOrder">
+		UPDATE jc_shop_order SET
+		     status=4,
+		    last_modified=now()
+		  where order_id = #{orderId}
+	</update>
+	
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="String">
+		DELETE FROM jc_shop_order where id = #{id}
+	</delete>
+	
+	<!--查询所有数据 -->
+
+	<select id="findMemberByType" parameterType="Map" resultMap="shopOrderResultMap">
+		SELECT <include refid="Base_Column_List"/> from jc_shop_order  where  1=1  and order_type in ('2','3')   and status!=9
+		 <if test="status != null and status != '' ">
+		    AND  status=#{status}
+		    </if>
+		     <if test="paymenStatus != null and paymenStatus != '' ">
+		         AND  payment_status=#{paymenStatus}
+		          and status!=8
+		    </if>
+		      <if test="shippingStatus != null and shippingStatus != '' ">
+		      AND  shipping_status=#{shippingStatus}
+		       and status!=8
+		    </if>
+		      <if test="memberId != null and memberId != '' ">
+		      AND  member_id=#{memberId}
+		   
+		    </if>
+	</select>
+	
+	
+	<!--根据用户ID查询 -->
+	
+	<select id="findById" parameterType="Map" resultMap="shopOrderResultMap">
+		SELECT <include refid="Base_Column_List"/>  from jc_shop_order a 
+		 where a.order_type in ('2','3') and  a.order_id=#{orderId}
+	</select>
+</mapper>

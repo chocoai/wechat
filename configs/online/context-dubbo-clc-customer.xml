@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - Copyright 1999-2011 Alibaba Group.
+ -  
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ -  
+ -      http://www.apache.org/licenses/LICENSE-2.0
+ -  
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--系统消费的服务配置-->
+
+    <!--统一用户服务-->
+    <dubbo:reference id="unifiedUserService" interface="com.miyzh.ucenter.api.UnifiedUserService" timeout="2000" check="false"/>
+    
+    <!--诊所信息服务-->
+    <dubbo:reference id="clinicService" interface="com.miyzh.clinic.api.ClinicService" timeout="2000" check="false"/>
+
+	
+	<!--统一验证码服务-->
+    <dubbo:reference id="verifyCodeService" interface="com.miyzh.cp.code.VerifyCodeService" timeout="2000" check="false"/>
+    
+	<!--医德帮用户服务-->
+    <dubbo:reference id="yideb1xUserService" interface="com.miyzh.migrate.api.Yideb1xUserService" timeout="2000" check="false"/>
+    
+	<!--医德帮诊所服务-->
+    <dubbo:reference id="yideb1xClinicService" interface="com.miyzh.migrate.api.Yideb1xClinicService" timeout="2000" check="false"/>
+    
+    <!--统一短信服务-->
+	<dubbo:reference id="smsService" interface="com.miyzh.cp.sms.SmsService" timeout="2000" check="false"/>
+	
+    <!--诊所用户服务-->
+	<dubbo:reference id="clinicUserService" interface="com.miyzh.clinic.api.ClinicUserService" timeout="2000" check="false"/>
+	
+	 <!--地址信息获取服务-->
+    <dubbo:reference id="nationCodeService" interface="com.miyzh.cp.dict.NationCodeService" timeout="2000" check="false"/>
+
+
+</beans>

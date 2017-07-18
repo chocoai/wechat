@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.TCodeByMemberDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.TCodeByMember" id="TCodeByMemberResultMap">
+  		<result property="id" column="id"/>
+		<result property="groupId" column="group_id" /> 
+		<result property="groupName" column="group_name" />
+		<result property="memberId" column="member_id" />
+		<result property="groupStartdate" column="group_startdate" />
+		<result property="groupEnddate" column="group_enddate" />
+		<result property="groupIfEnd" column="groupIfEnd" />
+		<result property="urlPath" column="url_path" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+  			id,
+  			group_id,
+  			group_name,
+  			member_id,
+  			DATE_FORMAT(group_startdate,'%Y-%m-%d') group_startdate,
+  			DATE_FORMAT(group_enddate,'%Y-%m-%d') group_enddate,
+  			if(DATE_FORMAT(group_enddate,'%Y-%m-%d')<![CDATA[<]]>DATE_FORMAT(NOW(),'%Y-%m-%d') ,'1','0' ) groupIfEnd,
+  			url_path
+  	</sql>
+	<!--增加 -->
+	<insert id="save"  useGeneratedKeys="true" keyProperty="id"   parameterType="com.miyzh.wechatshop.payUtil.bean.TCodeByMember" >
+		INSERT INTO wt_t_code(
+  			group_id,
+  			group_name,
+  			member_id,
+  			group_startdate,
+  			group_enddate,
+  			url_path
+		)
+		VALUES(
+  			#{groupId,jdbcType=INTEGER},
+  			#{groupName,jdbcType=VARCHAR},
+  			#{memberId,jdbcType=INTEGER},
+  			#{groupStartdate,jdbcType=TIMESTAMP},
+  			#{groupEnddate,jdbcType=TIMESTAMP},
+  			#{urlPath,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	
+	
+	
+	<!--查询所有数据 -->
+	<select id="findByMemberId" parameterType="String" resultMap="TCodeByMemberResultMap">
+		SELECT <include refid="Base_Column_List"/> from wt_t_code where member_id = #{memberId}  order by  group_enddate  desc 
+	</select>
+	
+	<select id="findByMemberIdGroupId" parameterType="Map" resultMap="TCodeByMemberResultMap">
+		SELECT <include refid="Base_Column_List"/> from wt_t_code where member_id = #{memberId}
+		 and  group_id = #{groupId}  limit 1
+	</select>
+	<!--根据ID查询 -->
+	<select id="findById" parameterType="Map" resultMap="TCodeByMemberResultMap">
+		SELECT <include refid="Base_Column_List"/> from wt_t_code where id = #{id}
+	</select>
+</mapper>

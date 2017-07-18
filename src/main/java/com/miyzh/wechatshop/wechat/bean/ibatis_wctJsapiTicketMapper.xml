@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.wechat.dao.IWctJsapiTicketDao">
+
+	<resultMap type="com.miyzh.wechatshop.wechat.bean.WctJsapiTicket" id="wctJsapiTicketResultMap">
+		<result property="id" column="id"/>
+  		<result property="jsapiTicket" column="jsapiticket"/>
+  		<result property="expiretime" column="expiretime"/>
+  		<result property="deleteflag" column="deleteflag"/>
+  		<result property="credate" column="credate"/>
+  		<result property="creuser" column="creuser"/>
+  		<result property="updatetime" column="updatetime"/>
+  		<result property="updateuser" column="updateuser"/>
+  		<result property="appid" column="appid"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			 id,
+  			 jsapiticket,
+  			 expiretime
+  	</sql>
+	<insert id="addWctJsapiTicket" parameterType="com.miyzh.wechatshop.wechat.bean.WctJsapiTicket" useGeneratedKeys="true"  keyProperty="id">
+		INSERT INTO wct_jsapi_ticket(
+		 	id, 
+  			jsapiTicket,
+  			expiretime,
+  			deleteflag,
+  			credate,
+  			creuser,
+  			updatetime,
+  			updateuser,
+  			appid
+		)
+		VALUES(
+		    #{id,jdbcType=VARCHAR},
+			
+  			#{jsapiTicket,jdbcType=VARCHAR},
+			
+  			#{expiretime,jdbcType=NVARCHAR},
+			
+  			#{deleteflag,jdbcType=VARCHAR},
+			
+  			#{credate,jdbcType=NVARCHAR},
+			
+  			#{creuser,jdbcType=VARCHAR},
+			
+  			#{updatetime,jdbcType=NVARCHAR},
+			
+  			#{updateuser,jdbcType=VARCHAR},
+  			
+  			#{appid,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="updateWctAccessToken" parameterType="com.miyzh.wechatshop.wechat.bean.WctJsapiTicket">
+		update wct_jsapi_ticket 
+		<set>
+			<if test="jsapiTicket != null and jsapiTicket !=''">
+				jsapiTicket = #{jsapiTicket},
+			</if>
+			<if test="expiretime != null and expiretime!=''">
+				expiretime = #{expiretime},
+			</if>
+		</set>
+	 	where id=#{id}
+	</update>
+	
+	
+	<select id="findById" resultMap="wctJsapiTicketResultMap" parameterType="String">
+  	     select 
+			   <include refid="Base_Column_List" />
+	     from wct_jsapi_ticket t
+	     where id=#{id}
+  	</select>
+	
+	<!-- 根据appid查询公众号唯一票据 -->
+	<select id="queryWctJsapiTicketByAppid" parameterType="String" resultMap="wctJsapiTicketResultMap">
+		SELECT 
+		  <include refid="Base_Column_List" /> 
+		FROM
+		  wct_jsapi_ticket 
+		WHERE appid = #{appid} 	
+		  AND deleteflag = '0' 	
+		  limit 1
+	</select>
+</mapper>

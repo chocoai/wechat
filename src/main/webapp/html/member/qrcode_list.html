@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>明医商城</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/code.css">
+    <script src="../../static/js/10core.js"></script>
+    <script src="../../static/js/60webcfg.js"></script>
+    <script src="../../static/js/20ajx.js"></script>
+    <script src="../../static/js/common.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="../../static/js/jsdk.js?v1"></script>
+</head>
+<body>
+    <div class="Group_purchase" id="Group_purchase">
+    
+    </div>
+<script>
+    window.onload=function () {
+        initadd();
+        function initadd() {
+        	wx.ready(function() { //隐藏微信分享
+                wx.hideOptionMenu();
+            });
+            var params = vge.urlparse(location.href);
+			var  openid = params.openid;
+    	    var requestParam = getRequestParam();
+    		requestParam.commandinfo.openid = openid;
+            var url = vge.japi+'/TCodeByMember/queryMyQRcodeList.do';
+        	vge.ajxpost(url,JSON.stringify(requestParam),10000,function(data) {
+        		 try {
+        			var jo = JSON.parse(data);
+        			if (jo.result.businesscode == 0) {
+        				 for(var i=0;i<jo.objList.length;i++){
+        					var Group_purchase =document.getElementById('Group_purchase');
+            				var  As = document.createElement('a');
+            				var  groupIfEnd = jo.objList[i].groupIfEnd;
+            				if(groupIfEnd==0){
+            					As.innerHTML=
+          		                    "<dl onclick='openMyQRcode("+jo.objList[i].id+")'>" +
+          		                        "<dt>"+jo.objList[i].groupName+"<span>有效</span></dt>" +
+          		                        "<dd >" +
+          		                        "<P>有效期：<time>"+jo.objList[i].groupStartdate+"</time> 至 <time>"+jo.objList[i].groupEnddate+"</time></P>" +
+          		                        "<i></i>" +
+          		                        "</dd>" +
+          		                    "</dl>";
+          		                 Group_purchase.appendChild(As);
+            				}else{
+            					As.innerHTML=
+          		                    "<dl>" +
+          		                        "<dt class='qrtdbacc'>"+jo.objList[i].groupName+"</dt>" +
+          		                        "<dd class='qrddacc'>" +
+          		                        "<P>有效期：<time>"+jo.objList[i].groupStartdate+"</time> 至 <time>"+jo.objList[i].groupEnddate+"</time></P>" +
+          		                        "<i></i>" +
+          		                        "</dd>" +
+          		                    "</dl>";
+          		                 Group_purchase.appendChild(As);
+            				}
+            				  
+            			}
+        				
+        			}else if(jo.result.businesscode == 2){
+						alert("未注册");
+						location.href=vge.webcontext+'/html/login/login.html?openid='+openid;
+					}
+        		} catch (e) {
+        			alert(e);
+        		}
+        	}, function(e) {
+        		alert(e);
+        	});
+        }
+    }
+    function openMyQRcode(id) {
+    	location.href="my_qrcode.html?tcodeId="+id;
+    } 
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.user.dao.IThirdUserInfoDao">
+	<resultMap type="com.miyzh.wechatshop.user.bean.ThirdUserInfoBean" id="thirdUserInfoResultMap">
+		<result property="usercenterKey" column="usercenter_key"/>
+  		<result property="openId" column="open_id"/>
+  		<result property="headUrl" column="head_url"/>
+  		<result property="unionId" column="uniod_id"/>
+  		<result property="ifBinding" column="if_binding"/>
+  		<result property="unionId" column="union_id"/>
+  		<result property="ifFollow" column="if_follow"/>
+  		<result property="accountType" column="account_type"/>
+  		<result property="memberID" column="member_id"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  			usercenter_key,
+  			open_id,
+  			if_binding,
+  			if_follow,
+  			account_type,  
+  			head_url,  
+  			union_id
+  	</sql>
+  	
+  	<!--查询unionid和headurl为空记录 -->
+	<select id="findImperfectInfo"  resultMap="thirdUserInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List"/> 
+		FROM 
+			wt_thirduser_info
+		where 
+			(union_id IS NULL OR head_url IS NULL)
+			AND open_id IS NOT NULL 
+			
+	</select>
+  	<!--根据参数查询 -->
+	<select id="findByMap" parameterType="Map" resultMap="thirdUserInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List"/> 
+		FROM 
+			wt_thirduser_info
+		where 
+			1 = 1
+		<if test ="openId != null and openId != ''">
+				and  open_id =  #{openId}
+		</if>
+		<if test ="unionId != null and unionId != ''">
+				and  union_id =  #{unionId}
+		</if>
+	</select>
+  	
+  	
+  	<!--增加 -->
+	<insert id="create" parameterType="com.miyzh.wechatshop.user.bean.ThirdUserInfoBean">
+		<if test ="openId != null and openId != '' and openId.length() > 10">
+			INSERT INTO wt_thirduser_info(
+	  			usercenter_key,
+	  			open_id,
+	  			union_id,
+	  			head_url,
+	  			if_binding,
+	  			if_follow,
+	  			account_type,
+	  			create_time,
+	  			update_time
+			)
+			VALUES(
+			    #{usercenterKey,jdbcType=VARCHAR},
+	  			#{openId,jdbcType=VARCHAR},
+	  			#{unionId,jdbcType=VARCHAR},
+	  			#{headUrl,jdbcType=VARCHAR},
+	  			#{ifBinding,jdbcType=INTEGER},
+	  			#{ifFollow,jdbcType=INTEGER},
+	  			#{accountType,jdbcType=INTEGER},
+	  			now(),
+	  			now()
+			)
+		</if>
+	</insert>
+	
+	<!--修改 -->
+	<update id="update" parameterType="com.miyzh.wechatshop.user.bean.ThirdUserInfoBean">
+		update
+			wt_thirduser_info
+		<set>
+				update_time = now()
+			<if test ="usercenterKey != null and usercenterKey != ''">
+				,usercenter_key = #{usercenterKey}
+			</if>
+			<if test ="openId != null and openId != ''">
+				,open_id = #{openId}
+			</if>
+			<if test ="headUrl != null and headUrl != ''">
+				,head_url = #{headUrl}
+			</if>
+  			<if test ="ifBinding != null and ifBinding!='' or ifBinding == 0 ">
+  				,if_binding = #{ifBinding}
+  			</if>
+  			<if test ="unionId != null and unionId != ''">
+  				,union_id = #{unionId}
+  			</if>
+  			<if test ="ifFollow != null and ifFollow!='' or ifFollow == 0">
+				,if_follow = #{ifFollow}
+			</if>
+  			<if test ="accountType != null and accountType!='' or accountType == 0">
+				,account_type = #{accountType}
+			</if>
+  		</set>
+		where open_id = #{openId}
+			 
+	</update>
+	
+	
+	
+	  	<!--根据openid,ucentid验证用户是否存在以及返回用户membeRid -->
+	<select id="findByOpenIdKey" parameterType="Map" resultMap="thirdUserInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List"/> ,b.member_id
+		FROM 
+		   wt_thirduser_info a 
+           LEFT JOIN  jc_core_member b 
+           on a.usercenter_key=b.usercenter_id
+		where  1 = 1
+		<if test ="openId != null and openId != ''">
+				and  open_id =  #{openId}
+		</if>
+		<if test ="usercenterKey != null and usercenterKey != ''">
+				and  usercenter_key =  #{usercenterKey}
+		</if>
+	</select>
+	
+	
+	
+	
+</mapper>

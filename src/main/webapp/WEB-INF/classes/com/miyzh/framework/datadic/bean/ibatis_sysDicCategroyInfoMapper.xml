@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.framework.datadic.dao.ISysDicCategroyInfoDao">
+
+	<resultMap type="SysDicCategroyInfo" id="sysDicCategroyInfoResultMap">
+		<result property="categoryKey" column="category_key"/>
+  		<result property="categoryName" column="category_name"/>
+  		<result property="categoryCode" column="category_code"/>
+  		<result property="dicType" column="dic_type"/>
+  		<result property="invoker" column="invoker"/>
+  		<result property="categoryExplain" column="category_explain"/>
+  		<result property="sequenceNum" column="sequence_num"/>
+  		<result property="deleteFlag" column="delete_flag"/>
+  		<result property="version" column="version"/>
+  		<result property="createTime" column="create_time"/>
+  		<result property="createUser" column="create_user"/>
+  		<result property="updateTime" column="update_time"/>
+  		<result property="updateUser" column="update_user"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+	         category_key, 
+  			 category_name,
+  			 category_code,
+  			 dic_type,
+  			 invoker,
+  			 category_explain,
+  			 sequence_num,
+  			 delete_flag,
+  			 version,
+  			 create_time,
+  			 create_user,
+  			 update_time,
+			 update_user 
+  	</sql>
+	<insert id="create" parameterType="SysDicCategroyInfo" useGeneratedKeys="true"  keyProperty="categoryKey">
+		INSERT INTO sys_diccategory_info(
+		 category_key, 
+  			category_name,
+  			category_code,
+  			dic_type,
+  			invoker,
+  			category_explain,
+  			sequence_num,
+  			delete_flag,
+  			version,
+  			create_time,
+  			create_user,
+  			update_time,
+  			 update_user 
+		)
+		VALUES(
+		    #{categoryKey,jdbcType=VARCHAR},
+			
+  			#{categoryName,jdbcType=VARCHAR},
+			
+  			#{categoryCode,jdbcType=VARCHAR},
+			
+  			#{dicType,jdbcType=VARCHAR},
+			
+  			#{invoker,jdbcType=NUMERIC},
+			
+  			#{categoryExplain,jdbcType=VARCHAR},
+			
+  			#{sequenceNum,jdbcType=NUMERIC},
+			
+  			#{deleteFlag,jdbcType=VARCHAR},
+			
+  			#{version,jdbcType=NUMERIC},
+			
+  			#{createTime,jdbcType=NVARCHAR},
+			
+  			#{createUser,jdbcType=VARCHAR},
+			
+  			#{updateTime,jdbcType=NVARCHAR},
+			
+  			#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="update" parameterType="SysDicCategroyInfo">
+		update sys_diccategory_info 
+	<set>
+			<if test="categoryKey != null and categoryKey!=''">
+			category_key = #{categoryKey},
+			</if>
+			<if test="categoryName != null and categoryName!=''">
+			category_name = #{categoryName},
+			</if>
+			<if test="categoryCode != null and categoryCode!=''">
+			category_code = #{categoryCode},
+			</if>
+			<if test="dicType != null and dicType!=''">
+			dic_type = #{dicType},
+			</if>
+			<if test="invoker != null and invoker!=''">
+			invoker = #{invoker},
+			</if>
+			<if test="categoryExplain != null and categoryExplain!=''">
+			category_explain = #{categoryExplain},
+			</if>
+			<if test="sequenceNum != null and sequenceNum!=''">
+			sequence_num = #{sequenceNum},
+			</if>
+			<if test="deleteFlag != null and deleteFlag!=''">
+			delete_flag = #{deleteFlag},
+			</if>
+			<if test="version != null and version!=''">
+			version = #{version},
+			</if>
+			<if test="createTime != null and createTime!=''">
+			create_time = #{createTime},
+			</if>
+			<if test="createUser != null and createUser!=''">
+			create_user = #{createUser},
+			</if>
+			<if test="updateTime != null and updateTime!=''">
+			update_time = #{updateTime},
+			</if>
+			<if test="updateUser != null and updateUser!=''">
+			update_user = #{updateUser},
+			</if>
+	</set>
+	 where category_key=#{categoryKey}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+	delete from sys_diccategory_info  
+		 <where> category_key =#{categoryKey}
+		</where>
+	</delete>
+	
+	<delete id="delete" parameterType="String">
+	delete from sys_diccategory_info  
+		 <where> category_key in
+		 <foreach collection="array" item="item" index="index"  open="(" separator="," close=")">   
+			#{item}   
+		 </foreach> 
+		</where>
+	</delete>
+	
+	<select id="findById" resultMap="sysDicCategroyInfoResultMap" parameterType="String">
+  	     select 
+			   <include refid="Base_Column_List" />
+	     from sys_diccategory_info t
+	     where category_key=#{categoryKey}
+  	</select>
+	
+	<select id="getList" resultMap="sysDicCategroyInfoResultMap" parameterType="SysDicCategroyInfo">
+		select  <include refid="Base_Column_List" /> from sys_diccategory_info t
+		<where>
+			<if test="categoryKey != null and categoryKey!=''">
+				category_key = #{categoryKey},
+			</if>
+			<if test="categoryName != null and categoryName!=''">
+				category_name = #{categoryName},
+			</if>
+			<if test="categoryCode != null and categoryCode!=''">
+				category_code = #{categoryCode},
+			</if>
+			<if test="dicType != null and dicType!=''">
+				dic_type = #{dicType},
+			</if>
+			<if test="invoker != null and invoker!=''">
+				invoker = #{invoker},
+			</if>
+			<if test="categoryExplain != null and categoryExplain!=''">
+				category_explain = #{categoryExplain},
+			</if>
+			<if test="sequenceNum != null and sequenceNum!=''">
+				sequence_num = #{sequenceNum},
+			</if>
+			<if test="deleteFlag != null and deleteFlag!=''">
+				delete_flag = #{deleteFlag},
+			</if>
+			<if test="version != null and version!=''">
+				version = #{version},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time = #{createTime},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user = #{createUser},
+			</if>
+			<if test="updateTime != null and updateTime!=''">
+				update_time = #{updateTime},
+			</if>
+			<if test="updateUser != null and updateUser!=''">
+				update_user = #{updateUser},
+			</if>
+		</where>
+	</select>
+	
+	<select id="getByMap" resultMap="sysDicCategroyInfoResultMap" parameterType="String">
+		select <include refid="Base_Column_List" /> from sys_diccategory_info where #{value}
+	</select>
+	
+	<select id="getAll" resultMap="sysDicCategroyInfoResultMap">
+		select <include refid="Base_Column_List" /> from sys_diccategory_info
+	</select>
+	
+	<select id="getCount" resultType="int">
+		select count(0) from sys_diccategory_info 
+	</select>
+	
+	<select id="getCountByObj" resultType="int" parameterType="SysDicCategroyInfo">
+		select count(1) from sys_diccategory_info 
+		<where>
+			<if test="categoryKey != null and categoryKey!=''">
+				category_key = #{categoryKey},
+			</if>
+			<if test="categoryName != null and categoryName!=''">
+				category_name = #{categoryName},
+			</if>
+			<if test="categoryCode != null and categoryCode!=''">
+				category_code = #{categoryCode},
+			</if>
+			<if test="dicType != null and dicType!=''">
+				dic_type = #{dicType},
+			</if>
+			<if test="invoker != null and invoker!=''">
+				invoker = #{invoker},
+			</if>
+			<if test="categoryExplain != null and categoryExplain!=''">
+				category_explain = #{categoryExplain},
+			</if>
+			<if test="sequenceNum != null and sequenceNum!=''">
+				sequence_num = #{sequenceNum},
+			</if>
+			<if test="deleteFlag != null and deleteFlag!=''">
+				delete_flag = #{deleteFlag},
+			</if>
+			<if test="version != null and version!=''">
+				version = #{version},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time = #{createTime},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user = #{createUser},
+			</if>
+			<if test="updateTime != null and updateTime!=''">
+				update_time = #{updateTime},
+			</if>
+			<if test="updateUser != null and updateUser!=''">
+				update_user = #{updateUser},
+			</if>
+		</where>
+	</select>
+	<!-- 查询所有app端调用的数据字典类型list -->
+	<select id="queryAllAppInvokerCategroyInfo" resultMap="sysDicCategroyInfoResultMap">
+		SELECT 
+		  <include refid="Base_Column_List" /> 
+		FROM
+		  SYS_DICCATEGORY_INFO t1 
+		WHERE t1.INVOKER IN (0, 2)		
+	</select>
+</mapper>

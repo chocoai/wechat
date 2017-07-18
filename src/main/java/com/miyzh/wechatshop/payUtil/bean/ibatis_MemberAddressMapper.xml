@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.payUtil.dao.MemberAddressDao">
+	<resultMap type="com.miyzh.wechatshop.payUtil.bean.ShopMemberAddress"
+		id="ShopMemberAddressResultMap">
+		<result property="id" column="address_id" />
+		<result property="username" column="username" />
+		<result property="gender" column="gender" />
+		<result property="detailaddress" column="detailaddress" />
+		<result property="postCode" column="postcode" />
+		<result property="tel" column="tel" />
+		<result property="areaCode" column="areacode" />
+		<result property="phone" column="phone" />
+		<result property="extNumber" column="extnumber" />
+		<result property="isDefault" column="is_default" />
+		<result property="email" column="email" />
+		<result property="delFlag" column="del_flag" />
+		<result property="member" column="member_id" />
+		<result property="province" column="province_id" />
+		<result property="city" column="city_id" />
+		<result property="country" column="country_id" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		address_id,
+		province_id,
+		city_id,
+		country_id,
+		username,
+	    detailaddress,
+		tel,
+		is_default
+	</sql>
+	<!--增加 -->
+	<insert id="create" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.miyzh.wechatshop.payUtil.bean.ShopMemberAddress">
+		INSERT INTO jc_shop_member_address(
+		username,
+		gender,
+		detailaddress,
+		tel,
+		member_id,
+		province_id,
+		city_id,
+		country_id,
+		is_default,
+		phone
+
+		)
+		VALUES(
+		#{username,jdbcType=VARCHAR},
+		#{gender,jdbcType=TINYINT},
+		#{detailaddress,jdbcType=VARCHAR},
+		#{tel,jdbcType=VARCHAR},
+		#{member,jdbcType=BIGINT},
+		#{province,jdbcType=VARCHAR},
+		#{city,jdbcType=VARCHAR},
+		#{country,jdbcType=VARCHAR},
+		#{isDefault,jdbcType=TINYINT},
+		#{phone,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+	<!--修改 -->
+	<update id="update" parameterType="com.miyzh.wechatshop.payUtil.bean.ShopMemberAddress">
+		UPDATE jc_shop_member_address
+		SET
+		username = #{username},detailaddress = #{detailaddress},
+		province_id = #{province},city_id = #{city},
+		country_id = #{country},is_default = #{isDefault},
+		tel = #{tel},gender = #{gender}
+		where address_id = #{id}
+	</update>
+
+
+	<!--修改 -->
+	<update id="updateByIsDault" parameterType="Map">
+		UPDATE
+		jc_shop_member_address SET
+		is_default = 0
+		where member_id = #{memberId}
+	</update>
+
+
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="String">
+		DELETE FROM
+		jc_shop_member_address where address_id = #{id}
+	</delete>
+
+	<!--查询所有数据 -->
+	<select id="getAll" parameterType="String" resultMap="ShopMemberAddressResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from jc_shop_member_address  a
+		where a.del_flag!=1
+		
+		and a.member_id = #{memberId}
+	</select>
+
+
+	<!--根据ID查询 -->
+	<select id="findById" parameterType="String" resultMap="ShopMemberAddressResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from jc_shop_member_address  a
+		where a.del_flag!=1
+		
+		and a.address_id = #{addressId}
+	</select>
+
+	<!--根据用户ID查询 -->
+	<select id="findByMemberId" parameterType="Map"
+		resultMap="ShopMemberAddressResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		from jc_shop_member_address a
+		where a.del_flag!=1
+		<if test="memberId != null and memberId != '' ">
+			and a.member_id = #{memberId}
+		</if>
+		<if test="isdefind != null and isdefind != '' ">
+			and a.is_default = #{isdefind}
+		</if>
+		<if test="addressId != null and addressId != '' ">
+			and a.address_id = #{addressId}
+		</if>
+		ORDER BY a.is_default desc
+	</select>
+</mapper>

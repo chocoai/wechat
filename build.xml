@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MIYZHInterface" default="war.test">
+
+	<property environment="env"/>
+
+	<property name="dir.src" value="src\main\java" />
+	<property name="dir.webapp" value="src\main\webapp" />
+	<property name="dir.classes" value="${dir.webapp}\WEB-INF\classes" />
+	<property name="dir.lib" value="${dir.webapp}\WEB-INF\lib" />
+
+	<property name="app.name" value="MIYZHInterface" />
+	<property name="dir.configs" value="configs" />
+	<property name="dir.target" value="target" />
+	<property name="dir.target.webapp" value="${dir.target}\${app.name}" />
+	<property name="dir.target.webapp.WEB-INF" value="${dir.target.webapp}\WEB-INF" />
+	<property name="dir.target.webapp.config" value="${dir.target.webapp.WEB-INF}\classes" />
+
+	<property name="tomcat.home" location="${env.TOMCAT_HOME}" />
+
+	<!-- 声明class path任务 -->
+	<target name="init_classpath">
+		<path id="classpath.libs">
+			<pathelement path="${dir.classes}" />
+			<fileset dir="${dir.lib}" includes="*.jar" />
+			<fileset dir="${tomcat.home}\lib" includes="*.jar" />
+			<!--fileset dir="E:\Java\jdk1.8.0\jre\lib" includes="*.jar" /-->
+		</path>
+	</target>
+
+	<!-- 编译源程序 -->
+	<target name="compile" depends="init_classpath">
+		<delete dir="${dir.classes}" quiet="true" />
+		<mkdir dir="${dir.classes}" />
+
+		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true" encoding="UTF-8" fork="true" deprecation="true" verbose="false">
+			<classpath refid="classpath.libs" />
+			<exclude name="**/*Test*.java"/>
+		</javac>
+		<copy todir="${dir.classes}">
+			<fileset dir="${dir.src}" includes="com/**/*.xml" />
+		</copy>
+	</target>
+
+	<!-- generate temparory webapp for online enviroment -->
+	<target name="copy_webapp_online">
+		<delete dir="${dir.target}" quiet="true" />
+		<mkdir dir="${dir.target}" />
+
+		<delete dir="${dir.target.webapp}" quiet="true" />
+		<mkdir dir="${dir.target.webapp}" />
+
+		<copy todir="${dir.target.webapp}/">
+			<fileset dir="${dir.webapp}"/>
+		</copy>
+
+		<copy todir="${dir.target.webapp.config}/">
+			<fileset dir="${dir.configs}/online">
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- generate temparory webapp for test enviroment -->
+	<target name="copy_webapp_test">
+		<delete dir="${dir.target}" quiet="true" />
+		<mkdir dir="${dir.target}" />
+
+		<delete dir="${dir.target.webapp}" quiet="true" />
+		<mkdir dir="${dir.target.webapp}" />
+
+		<copy todir="${dir.target.webapp}/">
+			<fileset dir="${dir.webapp}"/>
+		</copy>
+
+		<copy todir="${dir.target.webapp.config}/">
+			<fileset dir="${dir.configs}/test">
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 构建online formal war包 -->
+	<target name="war.online" depends="compile,copy_webapp_online">
+		<war destfile="${dir.target}/${app.name}.war" webxml="${dir.target.webapp.WEB-INF}/web.xml">
+			<fileset dir="${dir.target.webapp}"/>
+		</war>
+		<delete dir="${dir.target.webapp}" quiet="true" />
+	</target>
+
+	<!-- 构建test war包 -->
+	<target name="war.test" depends="compile,copy_webapp_test">
+		<war destfile="${dir.target}/${app.name}.war" webxml="${dir.target.webapp.WEB-INF}/web.xml">
+			<fileset dir="${dir.target.webapp}"/>
+		</war>
+		<delete dir="${dir.target.webapp}" quiet="true" />
+	</target>
+
+</project>

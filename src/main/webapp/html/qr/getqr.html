@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>欢迎来到明医商城</title>
+	<style>
+      #list,#qrdiv{float:left}
+      #list{width:200px}
+    </style>
+  </head>
+  <body>	
+	<div id="wrapper">
+	  <div id="info"></div>
+      <div>
+	    输入二维码ID：<input id="sceneid" type="text">
+        <button id="showqr" disabled>生成二维码</button>
+      </div>
+	  <div id="qrdiv" style=""><img id="qrimg" src='/static/v.gif'></div>
+	</div>
+	<script src="../../static/js/10core.js"></script>
+	<script src="../../static/js/20ajx.js"></script>
+	<script src="../../static/js/60webcfg.js"></script>
+	<script src="qrbat.js?v=2"></script>
+  </body>
+</html>

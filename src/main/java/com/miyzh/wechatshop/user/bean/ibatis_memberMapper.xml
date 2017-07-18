@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.user.dao.IMemberDao">
+	<resultMap type="com.miyzh.wechatshop.user.bean.MemberBean" id="memberResultMap">
+			<result property="memberId" column="member_id"/>
+	</resultMap>
+	
+	<select id="findMemberInfo" parameterType="Map" resultMap="memberResultMap">
+		select 
+			member_id
+		from
+			jc_core_member
+		where 1=1
+			<if test ="userCenterId != null and userCenterId != ''">
+				and  usercenter_id = #{userCenterId}
+			</if> 
+	</select>
+  	
+  	<!--增加 -->
+	<insert id="addMember"  useGeneratedKeys="true" keyProperty="memberId" parameterType="com.miyzh.wechatshop.user.bean.MemberBean">
+		INSERT INTO jc_core_member(
+  			usercenter_id,
+  			user_id,
+  			website_id,
+  			create_time,
+  			is_disabled,
+  			is_active,
+  			activation_Code
+		)
+		VALUES(
+		    #{usercenterId,jdbcType=VARCHAR},
+		    #{userId,jdbcType=INTEGER},
+  			#{websiteId,jdbcType=INTEGER},
+  			now(),
+  			#{isDisabled,jdbcType=INTEGER},
+  			#{isActive,jdbcType=INTEGER},
+  			#{activationCode,jdbcType=VARCHAR}
+			
+		)
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="memberId"> 
+			SELECT LAST_INSERT_ID() 
+		</selectKey> 
+	</insert>
+  	
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.miyzh.wechatshop.user.dao.IUserDao">
+	<resultMap type="com.miyzh.wechatshop.user.bean.UserBean" id="userResultMap">
+  		<result property="userId" column="usercenter_key"/>
+  		<result property="headUrl" column="head_url"/>
+  		<result property="loginName" column="login_name"/>
+  		<result property="userName" column="user_name"/>
+  		<result property="userAreaCode" column="user_area_code"/>
+  		<result property="phoneNum" column="phone_num"/>
+  		<result property="password" column="password"/>
+  		<result property="clinicId" column="clinic_id"/>
+  		<result property="clinicCode" column="clinic_code"/>
+	</resultMap>
+	
+	<!--根据手机号查询是否老用户 -->
+	<select id="queryCoreUserPhoneNumExits" parameterType="String" resultType="Integer">
+		SELECT 
+			COUNT(1) 
+		FROM 
+			jc_core_user 
+		WHERE doctor_phone = #{phoneNum}
+	</select>
+	
+	<!--查询用户待处理积分 -->
+	<select id="queryUserPendingPoint" parameterType="Map" resultType="Integer">
+		SELECT 
+		  IFNULL(SUM(shop_score.score), 0) 
+		FROM
+		  jc_shop_score shop_score 
+		  INNER JOIN jc_core_member coreMember 
+		    ON shop_score.member_id = coreMember.member_id 
+		  INNER JOIN jc_core_user coreUser 
+		    ON coreMember.usercenter_id = coreUser.ucenter_id 
+		WHERE shop_score.detail_id IS NULL 
+		  AND coreUser.clinic_code = #{clinicCode}
+		  AND coreUser.ucenter_id = #{usercenterId} 
+		  AND shop_score.useStatus = #{useStatus}
+	</select>
+  	
+  	
+	<!--增加 -->
+	<insert id="addUser" parameterType="com.miyzh.wechatshop.user.bean.UserBean">
+		INSERT INTO wt_user_info (
+			  usercenter_key,
+			  clinic_id,
+			  clinic_code,
+			  sex,
+			  login_name,
+			  user_name,
+			  user_area_code,
+			  phone_num,
+			  password,
+			  create_time,
+			  update_time
+		) 
+		VALUES
+  		(
+		    #{userId,jdbcType=VARCHAR},
+		    #{clinicId,jdbcType=VARCHAR},
+		    #{clinicCode,jdbcType=VARCHAR},
+		    #{sex,jdbcType=INTEGER},
+		    #{loginName,jdbcType=VARCHAR},
+		    #{userName,jdbcType=VARCHAR},
+		    #{userAreaCode,jdbcType=VARCHAR},
+		    #{phoneNum,jdbcType=VARCHAR},
+		    #{password,jdbcType=VARCHAR},
+		    now(),
+		    now()
+  		)
+	</insert>
+  	
+	<!--根据ID查询 -->
+	<select id="findByMap" parameterType="Map" resultMap="userResultMap">
+		SELECT 
+			u.usercenter_key,
+  			t.head_url,
+  			u.login_name,
+  			u.user_name,
+  			u.user_area_code,
+  			u.phone_num,
+  			u.password,
+  			u.clinic_id,
+  			u.clinic_code
+		from 
+			wt_user_info u  
+		inner join 
+			wt_thirduser_info t 
+		on 	u.usercenter_key = t.usercenter_key
+		where
+				1 = 1
+			<if test ="openId != null and openId != ''">
+				and  t.open_id = #{openId}
+			</if>
+			<if test ="userId != null and userId != ''">
+				and  u.usercenter_key = #{userId}
+			</if>
+			<if test ="phoneNum != null and phoneNum != ''">
+				and  u.phone_num = #{phoneNum}
+			</if>
+			<if test ="clinicCode != null and clinicCode != ''">
+				and  u.clinic_code = #{clinicCode}
+			</if>
+			
+	</select>
+	
+	<!--修改 -->
+	<update id="update" parameterType="com.miyzh.wechatshop.user.bean.UserBean">
+		update
+			wt_user_info
+		<set>
+			usercenter_key = #{userId} , update_time =now()
+			<if test ="clinicId != null and clinicId != ''">
+				,clinic_id = #{clinicId}
+			</if>
+			<if test ="clinicCode != null and clinicCode != ''  and clinicCode !='null'">
+				,clinic_code = #{clinicCode}
+			</if>
+			<if test ="password != null and password != ''">
+				,password = #{password}
+			</if>
+			<if test ="sex != null and sex !='' or sex == 0">
+				,sex = #{sex}
+			</if>
+			<if test ="userName != null and userName !=''">
+				,user_name = #{userName}
+			</if>
+			<if test ="userAreaCode != null and userAreaCode !=''">
+				,user_area_code = #{userAreaCode}
+			</if>
+  		</set>
+		where usercenter_key = #{userId}
+	</update>
+</mapper>
